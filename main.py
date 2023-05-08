@@ -1,0 +1,23 @@
+import ply.lex as lex
+reserved = {
+    'if': 'IF',
+    'then': 'THEN',
+    'else': 'ELSE',
+    'while': 'WHILE',
+    'begin':'BEGIN',
+    'end':'END',
+    'program':'PROGRAM',
+    'pilha of integer':'PILHA OF INTEGER',
+    'pilha of real':'PILHA OF REAL',
+    'var':'VAR',
+    'function':'FUNCTION',
+    'read':'READ',
+    'write':'WRITE',
+    'concatena':'CONCATENA',
+    'inverte':'INVERTE',
+    'integer':'INTEGER',
+    'real':'REAL',
+    'for':'FOR',
+    'to':'TO',
+    'do':'DO',
+}
