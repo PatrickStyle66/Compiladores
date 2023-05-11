@@ -21,7 +21,10 @@ reserved = {
     'to':'TO',
     'do':'DO',
     'repeat':'REPEAT',
-    'until':'UNTIL'
+    'until':'UNTIL',
+    'input':'INPUT',
+    'output':'OUTPUT',
+    'length':'LENGTH'
 }
 tokens = [
     'ID',
