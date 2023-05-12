@@ -24,7 +24,8 @@ reserved = {
     'until':'UNTIL',
     'input':'INPUT',
     'output':'OUTPUT',
-    'length':'LENGTH'
+    'length':'LENGTH',
+    'procedure':'PROCEDURE'
 }
 tokens = [
     'ID',
@@ -46,9 +47,9 @@ tokens = [
     'ATTR',
     'COMMA',
     'DOTCOMMA',
-    'DOT',
     'TWODOT',
-    'HASHTAG'
+    'HASHTAG',
+    'TYPE'
 ]
 
 tokens = tokens + list(reserved.values())
@@ -69,9 +70,9 @@ t_DIFFERENT = r'<>'
 t_ATTR = r':='
 t_COMMA = r','
 t_DOTCOMMA = r';'
-t_DOT = r'\.'
 t_TWODOT = r':'
 t_HASHTAG = r'\#'
+t_TYPE = r'->'
 
 errors =[]
 
@@ -91,7 +92,7 @@ def t_newline(t):
 t_ignore  = ' \t'
 
 def t_error(t):
-    errors.append(f'({t.value[0]},lin: {t.lineno})')
+    errors.append(f'({t.value[0]}')
     t.lexer.skip(1)
 
 def t_ID(t):
@@ -104,11 +105,12 @@ lexer = lex.lex()
 file = open('test.txt','r')
 data = file.read()
 lexer.input(data)
-
+line = 0
 while True:
     tok = lexer.token()
     if not tok:
         break
-    print(f'({tok.type}, {tok.value}) lin: {tok.lineno}')
+    print(f'({tok.type}, {tok.value})')
+    line = tok.lineno
 if errors:
     print(f'Erros léxicos:{errors}')

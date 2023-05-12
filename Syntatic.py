@@ -1,17 +1,17 @@
 import ply.yacc as yacc
-from Lexical import tokens
+from Lexical import tokens, data, line
+def p_programa(p):
+    'programa : PROGRAM ID DOTCOMMA corpo'
+
+def p_corpo(p):
+    'corpo : declara rotina BEGIN sentencas END'
+
 def p_empty(p):
     'empty :'
     pass
-def p_programa(p):
-    'programa : program ID DOTCOMMA corpo'
-
-def p_corpo(p):
-    'corpo : declara rotina begin sentencas end'
-
 def p_declara(p):
     '''
-    declara : var dvar maisdc
+    declara : VAR dvar maisdc
             | empty
     '''
 def p_maisdc(p):
@@ -24,14 +24,14 @@ def p_contadc(p):
     '''
 
 def p_dvar(p):
-    'dvar : variaveis : tipovar'
+    'dvar : variaveis TYPE tipovar'
 
 def p_tipovar(p):
     '''
-    tipovar : integer
-            | real
-            | pilha_of_integer
-            | pilha_of_real
+    tipovar : INTEGER
+            | REAL
+            | PILHAINTEGER
+            | PILHAREAL
     '''
 def p_variaveis(p):
     'variaveis : ID maisvar'
@@ -47,9 +47,9 @@ def p_rotina(p):
            | empty
     '''
 def p_procedimento(p):
-    'procedimento : procedure ID parametros DOTCOMMA corpo DOTCOMMA rotina'
+    'procedimento : PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina'
 def p_funcao(p):
-    'funcao : function ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina'
+    'funcao : FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina'
 def p_parametros(p):
     '''
     parametros : LPAREN listaparametros RPAREN
@@ -61,12 +61,19 @@ def p_contlistapar(p):
     '''contlistapar : DOTCOMMA listaparametros
                     | empty
     '''
+def p_listaid(p):
+    'listaid : ID contlistaid'
+def p_contlistaid(p):
+    '''
+    contlistaid : DOTCOMMA listaparametros
+                | empty
+    '''
 def p_tipofuncao(p):
     '''
-    tipofuncao : integer
-               | real
-               | pilha_of_real
-               | pilha_of_integer
+    tipofuncao : INTEGER
+               | REAL
+               | PILHAINTEGER
+               | PILHAREAL
     '''
 def p_sentencas(p):
     'sentencas : comando maissentencas'
@@ -93,13 +100,13 @@ def p_maisvarwrite(p):
     '''
 def p_comando(p):
     '''
-    comando : read LPAREN varread RPAREN
-            | if LPAREN condicao RPAREN then begin sentencas end pfalsa
-            | for ID ATTR expressao to expressao do begin sentencas end
+    comando : READ LPAREN varread RPAREN
+            | IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+            | FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
             | atribuicao
-            | write LPAREN varwrite RPAREN
-            | while LPAREN condicao RPAREN do begin sentencas end
-            | repeat sentencas until LPAREN condicao RPAREN
+            | WRITE LPAREN varwrite RPAREN
+            | WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+            | REPEAT sentencas UNTIL LPAREN condicao RPAREN
             | chamadaprocedimento
     '''
 def p_atribuicao(p):
@@ -122,11 +129,11 @@ def p_contlistaarg(p):
 def p_condicao(p):
     '''
     condicao :  relacao LPAREN expressaonum COMMA expressaonum RPAREN
-             | relacao LPAREN expressaopilha COMAA expressaopilha RPAREN
+             | relacao LPAREN expressaopilha COMMA expressaopilha RPAREN
     '''
 def p_pfalsa(p):
     '''
-    pfalsa : else begin sentencas end
+    pfalsa : ELSE BEGIN sentencas END
            | empty
     '''
 def p_relacao(p):
@@ -154,9 +161,62 @@ def p_operando(p):
              | integernum
              | realnum
              | operador LPAREN operando COMMA operando RPAREN
-             | PLUS
+    '''
+def p_operador(p):
+    '''
+    operador : PLUS
              | MINUS
              | TIMES
              | DIVIDE
              | DIVIDER
     '''
+def p_termo(p):
+    '''
+    termo : operador LPAREN operando COMMA operando RPAREN
+          | ID
+          | integernum
+          | realnum
+    '''
+def p_expressaopilha(p):
+    '''
+    expressaopilha : oppilha LPAREN conteudo RPAREN
+                   | CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+                   | INVERTE LPAREN conteudo RPAREN
+    '''
+def p_conteudo(p):
+    '''
+    conteudo : HASHTAG HASHTAG
+             | HASHTAG integernum integernumcont HASHTAG
+             | HASHTAG realnum realnumcont HASHTAG
+    '''
+def p_integernumcont(p):
+    '''
+    integernumcont : COMMA integernum integernumcont
+                   | empty
+    '''
+def p_realnumcont(p):
+    '''
+    realnumcont : COMMA realnum realnumcont
+                | empty
+    '''
+def p_oppilha(p):
+    '''
+    oppilha : INPUT
+            | OUTPUT
+            | LENGTH
+    '''
+def p_integernum(p):
+    'integernum : NUMBER'
+def p_realnum(p):
+    'realnum : RNUMBER'
+def p_error(p):
+    if p:
+        print(f'Syntax error at token {p.type} line {p.lineno - line}')
+        # Just discard the token and tell the parser it's okay.
+        parser.errok()
+    else:
+        print("Syntax error at EOF")
+
+parser = yacc.yacc()
+result = parser.parse(data)
+print(result)

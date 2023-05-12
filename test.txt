@@ -1,6 +1,7 @@
-program teste;
-var x : integer;
-x := +(+2.3 , -2);
-~ [a] { aaaaaaaaa }
-#2, 3, 4, 5#
-var y : pilha_of_integer;
+program teste ;
+var x -> integer ;
+var y -> pilha_of_integer ;
+begin
+x := +(+2.3 , -2) ;
+y := input(#2, 3, 4, 5#) ;
+end
