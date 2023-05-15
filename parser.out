@@ -1,0 +1,2739 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> PROGRAM ID DOTCOMMA corpo
+Rule 2     corpo -> declara rotina BEGIN sentencas END
+Rule 3     empty -> <empty>
+Rule 4     declara -> VAR dvar maisdc
+Rule 5     declara -> empty
+Rule 6     maisdc -> DOTCOMMA contadc
+Rule 7     contadc -> dvar maisdc
+Rule 8     contadc -> empty
+Rule 9     dvar -> variaveis TYPE tipovar
+Rule 10    tipovar -> INTEGER
+Rule 11    tipovar -> REAL
+Rule 12    tipovar -> PILHAINTEGER
+Rule 13    tipovar -> PILHAREAL
+Rule 14    variaveis -> ID maisvar
+Rule 15    maisvar -> COMMA maisvar
+Rule 16    maisvar -> empty
+Rule 17    rotina -> procedimento
+Rule 18    rotina -> funcao
+Rule 19    rotina -> empty
+Rule 20    procedimento -> PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
+Rule 21    funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+Rule 22    parametros -> LPAREN listaparametros RPAREN
+Rule 23    parametros -> empty
+Rule 24    listaparametros -> listaid TWODOT tipovar contlistapar
+Rule 25    contlistapar -> DOTCOMMA listaparametros
+Rule 26    contlistapar -> empty
+Rule 27    listaid -> ID contlistaid
+Rule 28    contlistaid -> DOTCOMMA listaparametros
+Rule 29    contlistaid -> empty
+Rule 30    tipofuncao -> INTEGER
+Rule 31    tipofuncao -> REAL
+Rule 32    tipofuncao -> PILHAINTEGER
+Rule 33    tipofuncao -> PILHAREAL
+Rule 34    sentencas -> comando maissentencas
+Rule 35    maissentencas -> DOTCOMMA contsentencas
+Rule 36    contsentencas -> sentencas
+Rule 37    contsentencas -> empty
+Rule 38    varread -> ID maisvarread
+Rule 39    maisvarread -> COMMA varread
+Rule 40    maisvarread -> empty
+Rule 41    varwrite -> ID maisvarwrite
+Rule 42    maisvarwrite -> COMMA varwrite
+Rule 43    maisvarwrite -> empty
+Rule 44    comando -> READ LPAREN varread RPAREN
+Rule 45    comando -> IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+Rule 46    comando -> FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+Rule 47    comando -> atribuicao
+Rule 48    comando -> WRITE LPAREN varwrite RPAREN
+Rule 49    comando -> WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+Rule 50    comando -> REPEAT sentencas UNTIL LPAREN condicao RPAREN
+Rule 51    comando -> chamadaprocedimento
+Rule 52    atribuicao -> ID ATTR expressao
+Rule 53    chamadaprocedimento -> ID argumentos
+Rule 54    argumentos -> LPAREN listaarg RPAREN
+Rule 55    argumentos -> empty
+Rule 56    listaarg -> expressao contlistaarg
+Rule 57    contlistaarg -> COMMA listaarg
+Rule 58    contlistaarg -> empty
+Rule 59    condicao -> relacao LPAREN expressaonum COMMA expressaonum RPAREN
+Rule 60    condicao -> relacao LPAREN expressaopilha COMMA expressaopilha RPAREN
+Rule 61    pfalsa -> ELSE BEGIN sentencas END
+Rule 62    pfalsa -> empty
+Rule 63    relacao -> EQUALS
+Rule 64    relacao -> GREAT
+Rule 65    relacao -> LESS
+Rule 66    relacao -> GREATEQ
+Rule 67    relacao -> LESSEQ
+Rule 68    relacao -> DIFFERENT
+Rule 69    expressao -> expressaonum
+Rule 70    expressao -> expressaopilha
+Rule 71    expressaonum -> termo
+Rule 72    expressaonum -> ID argumentos
+Rule 73    operando -> ID
+Rule 74    operando -> integernum
+Rule 75    operando -> realnum
+Rule 76    operando -> operador LPAREN operando COMMA operando RPAREN
+Rule 77    operador -> PLUS
+Rule 78    operador -> MINUS
+Rule 79    operador -> TIMES
+Rule 80    operador -> DIVIDE
+Rule 81    operador -> DIVIDER
+Rule 82    termo -> operador LPAREN operando COMMA operando RPAREN
+Rule 83    termo -> ID
+Rule 84    termo -> integernum
+Rule 85    termo -> realnum
+Rule 86    expressaopilha -> oppilha LPAREN conteudo RPAREN
+Rule 87    expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+Rule 88    expressaopilha -> INVERTE LPAREN conteudo RPAREN
+Rule 89    conteudo -> HASHTAG HASHTAG
+Rule 90    conteudo -> HASHTAG integernum integernumcont HASHTAG
+Rule 91    conteudo -> HASHTAG realnum realnumcont HASHTAG
+Rule 92    integernumcont -> COMMA integernum integernumcont
+Rule 93    integernumcont -> empty
+Rule 94    realnumcont -> COMMA realnum realnumcont
+Rule 95    realnumcont -> empty
+Rule 96    oppilha -> INPUT
+Rule 97    oppilha -> OUTPUT
+Rule 98    oppilha -> LENGTH
+Rule 99    integernum -> NUMBER
+Rule 100   realnum -> RNUMBER
+
+Terminals, with rules where they appear
+
+ATTR                 : 46 52
+BEGIN                : 2 45 46 49 61
+COMMA                : 15 39 42 57 59 60 76 82 87 92 94
+CONCATENA            : 87
+DIFFERENT            : 68
+DIVIDE               : 80
+DIVIDER              : 81
+DO                   : 46 49
+DOTCOMMA             : 1 6 20 20 21 21 25 28 35
+ELSE                 : 61
+END                  : 2 45 46 49 61
+EQUALS               : 63
+FOR                  : 46
+FUNCTION             : 21
+GREAT                : 64
+GREATEQ              : 66
+HASHTAG              : 89 89 90 90 91 91
+ID                   : 1 14 20 21 27 38 41 46 52 53 72 73 83
+IF                   : 45
+INPUT                : 96
+INTEGER              : 10 30
+INVERTE              : 88
+LENGTH               : 98
+LESS                 : 65
+LESSEQ               : 67
+LPAREN               : 22 44 45 48 49 50 54 59 60 76 82 86 87 88
+MINUS                : 78
+NUMBER               : 99
+OUTPUT               : 97
+PILHAINTEGER         : 12 32
+PILHAREAL            : 13 33
+PLUS                 : 77
+PROCEDURE            : 20
+PROGRAM              : 1
+READ                 : 44
+REAL                 : 11 31
+REPEAT               : 50
+RNUMBER              : 100
+RPAREN               : 22 44 45 48 49 50 54 59 60 76 82 86 87 88
+THEN                 : 45
+TIMES                : 79
+TO                   : 46
+TWODOT               : 21 24
+TYPE                 : 9
+UNTIL                : 50
+VAR                  : 4
+WHILE                : 49
+WRITE                : 48
+error                : 
+
+Nonterminals, with rules where they appear
+
+argumentos           : 53 72
+atribuicao           : 47
+chamadaprocedimento  : 51
+comando              : 34
+condicao             : 45 49 50
+contadc              : 6
+conteudo             : 86 87 87 88
+contlistaarg         : 56
+contlistaid          : 27
+contlistapar         : 24
+contsentencas        : 35
+corpo                : 1 20 21
+declara              : 2
+dvar                 : 4 7
+empty                : 5 8 16 19 23 26 29 37 40 43 55 58 62 93 95
+expressao            : 46 46 52 56
+expressaonum         : 59 59 69
+expressaopilha       : 60 60 70
+funcao               : 18
+integernum           : 74 84 90 92
+integernumcont       : 90 92
+listaarg             : 54 57
+listaid              : 24
+listaparametros      : 22 25 28
+maisdc               : 4 7
+maissentencas        : 34
+maisvar              : 14 15
+maisvarread          : 38
+maisvarwrite         : 41
+operador             : 76 82
+operando             : 76 76 82 82
+oppilha              : 86
+parametros           : 20 21
+pfalsa               : 45
+procedimento         : 17
+programa             : 0
+realnum              : 75 85 91 94
+realnumcont          : 91 94
+relacao              : 59 60
+rotina               : 2 20 21
+sentencas            : 2 36 45 46 49 50 61
+termo                : 71
+tipofuncao           : 21
+tipovar              : 9 24
+variaveis            : 9
+varread              : 39 44
+varwrite             : 42 48
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . PROGRAM ID DOTCOMMA corpo
+
+    PROGRAM         shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> PROGRAM . ID DOTCOMMA corpo
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> PROGRAM ID . DOTCOMMA corpo
+
+    DOTCOMMA        shift and go to state 4
+
+
+state 4
+
+    (1) programa -> PROGRAM ID DOTCOMMA . corpo
+    (2) corpo -> . declara rotina BEGIN sentencas END
+    (4) declara -> . VAR dvar maisdc
+    (5) declara -> . empty
+    (3) empty -> .
+
+    VAR             shift and go to state 7
+    PROCEDURE       reduce using rule 3 (empty -> .)
+    FUNCTION        reduce using rule 3 (empty -> .)
+    BEGIN           reduce using rule 3 (empty -> .)
+
+    corpo                          shift and go to state 5
+    declara                        shift and go to state 6
+    empty                          shift and go to state 8
+
+state 5
+
+    (1) programa -> PROGRAM ID DOTCOMMA corpo .
+
+    $end            reduce using rule 1 (programa -> PROGRAM ID DOTCOMMA corpo .)
+
+
+state 6
+
+    (2) corpo -> declara . rotina BEGIN sentencas END
+    (17) rotina -> . procedimento
+    (18) rotina -> . funcao
+    (19) rotina -> . empty
+    (20) procedimento -> . PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> . FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (3) empty -> .
+
+    PROCEDURE       shift and go to state 13
+    FUNCTION        shift and go to state 14
+    BEGIN           reduce using rule 3 (empty -> .)
+
+    rotina                         shift and go to state 9
+    procedimento                   shift and go to state 10
+    funcao                         shift and go to state 11
+    empty                          shift and go to state 12
+
+state 7
+
+    (4) declara -> VAR . dvar maisdc
+    (9) dvar -> . variaveis TYPE tipovar
+    (14) variaveis -> . ID maisvar
+
+    ID              shift and go to state 17
+
+    dvar                           shift and go to state 15
+    variaveis                      shift and go to state 16
+
+state 8
+
+    (5) declara -> empty .
+
+    PROCEDURE       reduce using rule 5 (declara -> empty .)
+    FUNCTION        reduce using rule 5 (declara -> empty .)
+    BEGIN           reduce using rule 5 (declara -> empty .)
+
+
+state 9
+
+    (2) corpo -> declara rotina . BEGIN sentencas END
+
+    BEGIN           shift and go to state 18
+
+
+state 10
+
+    (17) rotina -> procedimento .
+
+    BEGIN           reduce using rule 17 (rotina -> procedimento .)
+
+
+state 11
+
+    (18) rotina -> funcao .
+
+    BEGIN           reduce using rule 18 (rotina -> funcao .)
+
+
+state 12
+
+    (19) rotina -> empty .
+
+    BEGIN           reduce using rule 19 (rotina -> empty .)
+
+
+state 13
+
+    (20) procedimento -> PROCEDURE . ID parametros DOTCOMMA corpo DOTCOMMA rotina
+
+    ID              shift and go to state 19
+
+
+state 14
+
+    (21) funcao -> FUNCTION . ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+
+    ID              shift and go to state 20
+
+
+state 15
+
+    (4) declara -> VAR dvar . maisdc
+    (6) maisdc -> . DOTCOMMA contadc
+
+    DOTCOMMA        shift and go to state 22
+
+    maisdc                         shift and go to state 21
+
+state 16
+
+    (9) dvar -> variaveis . TYPE tipovar
+
+    TYPE            shift and go to state 23
+
+
+state 17
+
+    (14) variaveis -> ID . maisvar
+    (15) maisvar -> . COMMA maisvar
+    (16) maisvar -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 25
+    TYPE            reduce using rule 3 (empty -> .)
+
+    maisvar                        shift and go to state 24
+    empty                          shift and go to state 26
+
+state 18
+
+    (2) corpo -> declara rotina BEGIN . sentencas END
+    (34) sentencas -> . comando maissentencas
+    (44) comando -> . READ LPAREN varread RPAREN
+    (45) comando -> . IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (46) comando -> . FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+    (47) comando -> . atribuicao
+    (48) comando -> . WRITE LPAREN varwrite RPAREN
+    (49) comando -> . WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+    (50) comando -> . REPEAT sentencas UNTIL LPAREN condicao RPAREN
+    (51) comando -> . chamadaprocedimento
+    (52) atribuicao -> . ID ATTR expressao
+    (53) chamadaprocedimento -> . ID argumentos
+
+    READ            shift and go to state 29
+    IF              shift and go to state 30
+    FOR             shift and go to state 31
+    WRITE           shift and go to state 34
+    WHILE           shift and go to state 35
+    REPEAT          shift and go to state 36
+    ID              shift and go to state 32
+
+    sentencas                      shift and go to state 27
+    comando                        shift and go to state 28
+    atribuicao                     shift and go to state 33
+    chamadaprocedimento            shift and go to state 37
+
+state 19
+
+    (20) procedimento -> PROCEDURE ID . parametros DOTCOMMA corpo DOTCOMMA rotina
+    (22) parametros -> . LPAREN listaparametros RPAREN
+    (23) parametros -> . empty
+    (3) empty -> .
+
+    LPAREN          shift and go to state 39
+    DOTCOMMA        reduce using rule 3 (empty -> .)
+
+    parametros                     shift and go to state 38
+    empty                          shift and go to state 40
+
+state 20
+
+    (21) funcao -> FUNCTION ID . parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (22) parametros -> . LPAREN listaparametros RPAREN
+    (23) parametros -> . empty
+    (3) empty -> .
+
+    LPAREN          shift and go to state 39
+    TWODOT          reduce using rule 3 (empty -> .)
+
+    parametros                     shift and go to state 41
+    empty                          shift and go to state 40
+
+state 21
+
+    (4) declara -> VAR dvar maisdc .
+
+    PROCEDURE       reduce using rule 4 (declara -> VAR dvar maisdc .)
+    FUNCTION        reduce using rule 4 (declara -> VAR dvar maisdc .)
+    BEGIN           reduce using rule 4 (declara -> VAR dvar maisdc .)
+
+
+state 22
+
+    (6) maisdc -> DOTCOMMA . contadc
+    (7) contadc -> . dvar maisdc
+    (8) contadc -> . empty
+    (9) dvar -> . variaveis TYPE tipovar
+    (3) empty -> .
+    (14) variaveis -> . ID maisvar
+
+    PROCEDURE       reduce using rule 3 (empty -> .)
+    FUNCTION        reduce using rule 3 (empty -> .)
+    BEGIN           reduce using rule 3 (empty -> .)
+    ID              shift and go to state 17
+
+    contadc                        shift and go to state 42
+    dvar                           shift and go to state 43
+    empty                          shift and go to state 44
+    variaveis                      shift and go to state 16
+
+state 23
+
+    (9) dvar -> variaveis TYPE . tipovar
+    (10) tipovar -> . INTEGER
+    (11) tipovar -> . REAL
+    (12) tipovar -> . PILHAINTEGER
+    (13) tipovar -> . PILHAREAL
+
+    INTEGER         shift and go to state 46
+    REAL            shift and go to state 47
+    PILHAINTEGER    shift and go to state 48
+    PILHAREAL       shift and go to state 49
+
+    tipovar                        shift and go to state 45
+
+state 24
+
+    (14) variaveis -> ID maisvar .
+
+    TYPE            reduce using rule 14 (variaveis -> ID maisvar .)
+
+
+state 25
+
+    (15) maisvar -> COMMA . maisvar
+    (15) maisvar -> . COMMA maisvar
+    (16) maisvar -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 25
+    TYPE            reduce using rule 3 (empty -> .)
+
+    maisvar                        shift and go to state 50
+    empty                          shift and go to state 26
+
+state 26
+
+    (16) maisvar -> empty .
+
+    TYPE            reduce using rule 16 (maisvar -> empty .)
+
+
+state 27
+
+    (2) corpo -> declara rotina BEGIN sentencas . END
+
+    END             shift and go to state 51
+
+
+state 28
+
+    (34) sentencas -> comando . maissentencas
+    (35) maissentencas -> . DOTCOMMA contsentencas
+
+    DOTCOMMA        shift and go to state 53
+
+    maissentencas                  shift and go to state 52
+
+state 29
+
+    (44) comando -> READ . LPAREN varread RPAREN
+
+    LPAREN          shift and go to state 54
+
+
+state 30
+
+    (45) comando -> IF . LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+
+    LPAREN          shift and go to state 55
+
+
+state 31
+
+    (46) comando -> FOR . ID ATTR expressao TO expressao DO BEGIN sentencas END
+
+    ID              shift and go to state 56
+
+
+state 32
+
+    (52) atribuicao -> ID . ATTR expressao
+    (53) chamadaprocedimento -> ID . argumentos
+    (54) argumentos -> . LPAREN listaarg RPAREN
+    (55) argumentos -> . empty
+    (3) empty -> .
+
+    ATTR            shift and go to state 57
+    LPAREN          shift and go to state 59
+    DOTCOMMA        reduce using rule 3 (empty -> .)
+
+    argumentos                     shift and go to state 58
+    empty                          shift and go to state 60
+
+state 33
+
+    (47) comando -> atribuicao .
+
+    DOTCOMMA        reduce using rule 47 (comando -> atribuicao .)
+
+
+state 34
+
+    (48) comando -> WRITE . LPAREN varwrite RPAREN
+
+    LPAREN          shift and go to state 61
+
+
+state 35
+
+    (49) comando -> WHILE . LPAREN condicao RPAREN DO BEGIN sentencas END
+
+    LPAREN          shift and go to state 62
+
+
+state 36
+
+    (50) comando -> REPEAT . sentencas UNTIL LPAREN condicao RPAREN
+    (34) sentencas -> . comando maissentencas
+    (44) comando -> . READ LPAREN varread RPAREN
+    (45) comando -> . IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (46) comando -> . FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+    (47) comando -> . atribuicao
+    (48) comando -> . WRITE LPAREN varwrite RPAREN
+    (49) comando -> . WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+    (50) comando -> . REPEAT sentencas UNTIL LPAREN condicao RPAREN
+    (51) comando -> . chamadaprocedimento
+    (52) atribuicao -> . ID ATTR expressao
+    (53) chamadaprocedimento -> . ID argumentos
+
+    READ            shift and go to state 29
+    IF              shift and go to state 30
+    FOR             shift and go to state 31
+    WRITE           shift and go to state 34
+    WHILE           shift and go to state 35
+    REPEAT          shift and go to state 36
+    ID              shift and go to state 32
+
+    sentencas                      shift and go to state 63
+    comando                        shift and go to state 28
+    atribuicao                     shift and go to state 33
+    chamadaprocedimento            shift and go to state 37
+
+state 37
+
+    (51) comando -> chamadaprocedimento .
+
+    DOTCOMMA        reduce using rule 51 (comando -> chamadaprocedimento .)
+
+
+state 38
+
+    (20) procedimento -> PROCEDURE ID parametros . DOTCOMMA corpo DOTCOMMA rotina
+
+    DOTCOMMA        shift and go to state 64
+
+
+state 39
+
+    (22) parametros -> LPAREN . listaparametros RPAREN
+    (24) listaparametros -> . listaid TWODOT tipovar contlistapar
+    (27) listaid -> . ID contlistaid
+
+    ID              shift and go to state 67
+
+    listaparametros                shift and go to state 65
+    listaid                        shift and go to state 66
+
+state 40
+
+    (23) parametros -> empty .
+
+    DOTCOMMA        reduce using rule 23 (parametros -> empty .)
+    TWODOT          reduce using rule 23 (parametros -> empty .)
+
+
+state 41
+
+    (21) funcao -> FUNCTION ID parametros . TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+
+    TWODOT          shift and go to state 68
+
+
+state 42
+
+    (6) maisdc -> DOTCOMMA contadc .
+
+    PROCEDURE       reduce using rule 6 (maisdc -> DOTCOMMA contadc .)
+    FUNCTION        reduce using rule 6 (maisdc -> DOTCOMMA contadc .)
+    BEGIN           reduce using rule 6 (maisdc -> DOTCOMMA contadc .)
+
+
+state 43
+
+    (7) contadc -> dvar . maisdc
+    (6) maisdc -> . DOTCOMMA contadc
+
+    DOTCOMMA        shift and go to state 22
+
+    maisdc                         shift and go to state 69
+
+state 44
+
+    (8) contadc -> empty .
+
+    PROCEDURE       reduce using rule 8 (contadc -> empty .)
+    FUNCTION        reduce using rule 8 (contadc -> empty .)
+    BEGIN           reduce using rule 8 (contadc -> empty .)
+
+
+state 45
+
+    (9) dvar -> variaveis TYPE tipovar .
+
+    DOTCOMMA        reduce using rule 9 (dvar -> variaveis TYPE tipovar .)
+
+
+state 46
+
+    (10) tipovar -> INTEGER .
+
+    DOTCOMMA        reduce using rule 10 (tipovar -> INTEGER .)
+    RPAREN          reduce using rule 10 (tipovar -> INTEGER .)
+    TWODOT          reduce using rule 10 (tipovar -> INTEGER .)
+
+
+state 47
+
+    (11) tipovar -> REAL .
+
+    DOTCOMMA        reduce using rule 11 (tipovar -> REAL .)
+    RPAREN          reduce using rule 11 (tipovar -> REAL .)
+    TWODOT          reduce using rule 11 (tipovar -> REAL .)
+
+
+state 48
+
+    (12) tipovar -> PILHAINTEGER .
+
+    DOTCOMMA        reduce using rule 12 (tipovar -> PILHAINTEGER .)
+    RPAREN          reduce using rule 12 (tipovar -> PILHAINTEGER .)
+    TWODOT          reduce using rule 12 (tipovar -> PILHAINTEGER .)
+
+
+state 49
+
+    (13) tipovar -> PILHAREAL .
+
+    DOTCOMMA        reduce using rule 13 (tipovar -> PILHAREAL .)
+    RPAREN          reduce using rule 13 (tipovar -> PILHAREAL .)
+    TWODOT          reduce using rule 13 (tipovar -> PILHAREAL .)
+
+
+state 50
+
+    (15) maisvar -> COMMA maisvar .
+
+    TYPE            reduce using rule 15 (maisvar -> COMMA maisvar .)
+
+
+state 51
+
+    (2) corpo -> declara rotina BEGIN sentencas END .
+
+    $end            reduce using rule 2 (corpo -> declara rotina BEGIN sentencas END .)
+    DOTCOMMA        reduce using rule 2 (corpo -> declara rotina BEGIN sentencas END .)
+
+
+state 52
+
+    (34) sentencas -> comando maissentencas .
+
+    END             reduce using rule 34 (sentencas -> comando maissentencas .)
+    UNTIL           reduce using rule 34 (sentencas -> comando maissentencas .)
+
+
+state 53
+
+    (35) maissentencas -> DOTCOMMA . contsentencas
+    (36) contsentencas -> . sentencas
+    (37) contsentencas -> . empty
+    (34) sentencas -> . comando maissentencas
+    (3) empty -> .
+    (44) comando -> . READ LPAREN varread RPAREN
+    (45) comando -> . IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (46) comando -> . FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+    (47) comando -> . atribuicao
+    (48) comando -> . WRITE LPAREN varwrite RPAREN
+    (49) comando -> . WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+    (50) comando -> . REPEAT sentencas UNTIL LPAREN condicao RPAREN
+    (51) comando -> . chamadaprocedimento
+    (52) atribuicao -> . ID ATTR expressao
+    (53) chamadaprocedimento -> . ID argumentos
+
+    END             reduce using rule 3 (empty -> .)
+    UNTIL           reduce using rule 3 (empty -> .)
+    READ            shift and go to state 29
+    IF              shift and go to state 30
+    FOR             shift and go to state 31
+    WRITE           shift and go to state 34
+    WHILE           shift and go to state 35
+    REPEAT          shift and go to state 36
+    ID              shift and go to state 32
+
+    contsentencas                  shift and go to state 70
+    sentencas                      shift and go to state 71
+    empty                          shift and go to state 72
+    comando                        shift and go to state 28
+    atribuicao                     shift and go to state 33
+    chamadaprocedimento            shift and go to state 37
+
+state 54
+
+    (44) comando -> READ LPAREN . varread RPAREN
+    (38) varread -> . ID maisvarread
+
+    ID              shift and go to state 74
+
+    varread                        shift and go to state 73
+
+state 55
+
+    (45) comando -> IF LPAREN . condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (59) condicao -> . relacao LPAREN expressaonum COMMA expressaonum RPAREN
+    (60) condicao -> . relacao LPAREN expressaopilha COMMA expressaopilha RPAREN
+    (63) relacao -> . EQUALS
+    (64) relacao -> . GREAT
+    (65) relacao -> . LESS
+    (66) relacao -> . GREATEQ
+    (67) relacao -> . LESSEQ
+    (68) relacao -> . DIFFERENT
+
+    EQUALS          shift and go to state 77
+    GREAT           shift and go to state 78
+    LESS            shift and go to state 79
+    GREATEQ         shift and go to state 80
+    LESSEQ          shift and go to state 81
+    DIFFERENT       shift and go to state 82
+
+    condicao                       shift and go to state 75
+    relacao                        shift and go to state 76
+
+state 56
+
+    (46) comando -> FOR ID . ATTR expressao TO expressao DO BEGIN sentencas END
+
+    ATTR            shift and go to state 83
+
+
+state 57
+
+    (52) atribuicao -> ID ATTR . expressao
+    (69) expressao -> . expressaonum
+    (70) expressao -> . expressaopilha
+    (71) expressaonum -> . termo
+    (72) expressaonum -> . ID argumentos
+    (86) expressaopilha -> . oppilha LPAREN conteudo RPAREN
+    (87) expressaopilha -> . CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+    (88) expressaopilha -> . INVERTE LPAREN conteudo RPAREN
+    (82) termo -> . operador LPAREN operando COMMA operando RPAREN
+    (83) termo -> . ID
+    (84) termo -> . integernum
+    (85) termo -> . realnum
+    (96) oppilha -> . INPUT
+    (97) oppilha -> . OUTPUT
+    (98) oppilha -> . LENGTH
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    ID              shift and go to state 84
+    CONCATENA       shift and go to state 90
+    INVERTE         shift and go to state 91
+    INPUT           shift and go to state 95
+    OUTPUT          shift and go to state 96
+    LENGTH          shift and go to state 97
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    expressao                      shift and go to state 85
+    expressaonum                   shift and go to state 86
+    expressaopilha                 shift and go to state 87
+    termo                          shift and go to state 88
+    oppilha                        shift and go to state 89
+    operador                       shift and go to state 92
+    integernum                     shift and go to state 93
+    realnum                        shift and go to state 94
+
+state 58
+
+    (53) chamadaprocedimento -> ID argumentos .
+
+    DOTCOMMA        reduce using rule 53 (chamadaprocedimento -> ID argumentos .)
+
+
+state 59
+
+    (54) argumentos -> LPAREN . listaarg RPAREN
+    (56) listaarg -> . expressao contlistaarg
+    (69) expressao -> . expressaonum
+    (70) expressao -> . expressaopilha
+    (71) expressaonum -> . termo
+    (72) expressaonum -> . ID argumentos
+    (86) expressaopilha -> . oppilha LPAREN conteudo RPAREN
+    (87) expressaopilha -> . CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+    (88) expressaopilha -> . INVERTE LPAREN conteudo RPAREN
+    (82) termo -> . operador LPAREN operando COMMA operando RPAREN
+    (83) termo -> . ID
+    (84) termo -> . integernum
+    (85) termo -> . realnum
+    (96) oppilha -> . INPUT
+    (97) oppilha -> . OUTPUT
+    (98) oppilha -> . LENGTH
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    ID              shift and go to state 84
+    CONCATENA       shift and go to state 90
+    INVERTE         shift and go to state 91
+    INPUT           shift and go to state 95
+    OUTPUT          shift and go to state 96
+    LENGTH          shift and go to state 97
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    listaarg                       shift and go to state 105
+    expressao                      shift and go to state 106
+    expressaonum                   shift and go to state 86
+    expressaopilha                 shift and go to state 87
+    termo                          shift and go to state 88
+    oppilha                        shift and go to state 89
+    operador                       shift and go to state 92
+    integernum                     shift and go to state 93
+    realnum                        shift and go to state 94
+
+state 60
+
+    (55) argumentos -> empty .
+
+    DOTCOMMA        reduce using rule 55 (argumentos -> empty .)
+    COMMA           reduce using rule 55 (argumentos -> empty .)
+    RPAREN          reduce using rule 55 (argumentos -> empty .)
+    TO              reduce using rule 55 (argumentos -> empty .)
+    DO              reduce using rule 55 (argumentos -> empty .)
+
+
+state 61
+
+    (48) comando -> WRITE LPAREN . varwrite RPAREN
+    (41) varwrite -> . ID maisvarwrite
+
+    ID              shift and go to state 108
+
+    varwrite                       shift and go to state 107
+
+state 62
+
+    (49) comando -> WHILE LPAREN . condicao RPAREN DO BEGIN sentencas END
+    (59) condicao -> . relacao LPAREN expressaonum COMMA expressaonum RPAREN
+    (60) condicao -> . relacao LPAREN expressaopilha COMMA expressaopilha RPAREN
+    (63) relacao -> . EQUALS
+    (64) relacao -> . GREAT
+    (65) relacao -> . LESS
+    (66) relacao -> . GREATEQ
+    (67) relacao -> . LESSEQ
+    (68) relacao -> . DIFFERENT
+
+    EQUALS          shift and go to state 77
+    GREAT           shift and go to state 78
+    LESS            shift and go to state 79
+    GREATEQ         shift and go to state 80
+    LESSEQ          shift and go to state 81
+    DIFFERENT       shift and go to state 82
+
+    condicao                       shift and go to state 109
+    relacao                        shift and go to state 76
+
+state 63
+
+    (50) comando -> REPEAT sentencas . UNTIL LPAREN condicao RPAREN
+
+    UNTIL           shift and go to state 110
+
+
+state 64
+
+    (20) procedimento -> PROCEDURE ID parametros DOTCOMMA . corpo DOTCOMMA rotina
+    (2) corpo -> . declara rotina BEGIN sentencas END
+    (4) declara -> . VAR dvar maisdc
+    (5) declara -> . empty
+    (3) empty -> .
+
+    VAR             shift and go to state 7
+    PROCEDURE       reduce using rule 3 (empty -> .)
+    FUNCTION        reduce using rule 3 (empty -> .)
+    BEGIN           reduce using rule 3 (empty -> .)
+
+    corpo                          shift and go to state 111
+    declara                        shift and go to state 6
+    empty                          shift and go to state 8
+
+state 65
+
+    (22) parametros -> LPAREN listaparametros . RPAREN
+
+    RPAREN          shift and go to state 112
+
+
+state 66
+
+    (24) listaparametros -> listaid . TWODOT tipovar contlistapar
+
+    TWODOT          shift and go to state 113
+
+
+state 67
+
+    (27) listaid -> ID . contlistaid
+    (28) contlistaid -> . DOTCOMMA listaparametros
+    (29) contlistaid -> . empty
+    (3) empty -> .
+
+    DOTCOMMA        shift and go to state 115
+    TWODOT          reduce using rule 3 (empty -> .)
+
+    contlistaid                    shift and go to state 114
+    empty                          shift and go to state 116
+
+state 68
+
+    (21) funcao -> FUNCTION ID parametros TWODOT . tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (30) tipofuncao -> . INTEGER
+    (31) tipofuncao -> . REAL
+    (32) tipofuncao -> . PILHAINTEGER
+    (33) tipofuncao -> . PILHAREAL
+
+    INTEGER         shift and go to state 118
+    REAL            shift and go to state 119
+    PILHAINTEGER    shift and go to state 120
+    PILHAREAL       shift and go to state 121
+
+    tipofuncao                     shift and go to state 117
+
+state 69
+
+    (7) contadc -> dvar maisdc .
+
+    PROCEDURE       reduce using rule 7 (contadc -> dvar maisdc .)
+    FUNCTION        reduce using rule 7 (contadc -> dvar maisdc .)
+    BEGIN           reduce using rule 7 (contadc -> dvar maisdc .)
+
+
+state 70
+
+    (35) maissentencas -> DOTCOMMA contsentencas .
+
+    END             reduce using rule 35 (maissentencas -> DOTCOMMA contsentencas .)
+    UNTIL           reduce using rule 35 (maissentencas -> DOTCOMMA contsentencas .)
+
+
+state 71
+
+    (36) contsentencas -> sentencas .
+
+    END             reduce using rule 36 (contsentencas -> sentencas .)
+    UNTIL           reduce using rule 36 (contsentencas -> sentencas .)
+
+
+state 72
+
+    (37) contsentencas -> empty .
+
+    END             reduce using rule 37 (contsentencas -> empty .)
+    UNTIL           reduce using rule 37 (contsentencas -> empty .)
+
+
+state 73
+
+    (44) comando -> READ LPAREN varread . RPAREN
+
+    RPAREN          shift and go to state 122
+
+
+state 74
+
+    (38) varread -> ID . maisvarread
+    (39) maisvarread -> . COMMA varread
+    (40) maisvarread -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 124
+    RPAREN          reduce using rule 3 (empty -> .)
+
+    maisvarread                    shift and go to state 123
+    empty                          shift and go to state 125
+
+state 75
+
+    (45) comando -> IF LPAREN condicao . RPAREN THEN BEGIN sentencas END pfalsa
+
+    RPAREN          shift and go to state 126
+
+
+state 76
+
+    (59) condicao -> relacao . LPAREN expressaonum COMMA expressaonum RPAREN
+    (60) condicao -> relacao . LPAREN expressaopilha COMMA expressaopilha RPAREN
+
+    LPAREN          shift and go to state 127
+
+
+state 77
+
+    (63) relacao -> EQUALS .
+
+    LPAREN          reduce using rule 63 (relacao -> EQUALS .)
+
+
+state 78
+
+    (64) relacao -> GREAT .
+
+    LPAREN          reduce using rule 64 (relacao -> GREAT .)
+
+
+state 79
+
+    (65) relacao -> LESS .
+
+    LPAREN          reduce using rule 65 (relacao -> LESS .)
+
+
+state 80
+
+    (66) relacao -> GREATEQ .
+
+    LPAREN          reduce using rule 66 (relacao -> GREATEQ .)
+
+
+state 81
+
+    (67) relacao -> LESSEQ .
+
+    LPAREN          reduce using rule 67 (relacao -> LESSEQ .)
+
+
+state 82
+
+    (68) relacao -> DIFFERENT .
+
+    LPAREN          reduce using rule 68 (relacao -> DIFFERENT .)
+
+
+state 83
+
+    (46) comando -> FOR ID ATTR . expressao TO expressao DO BEGIN sentencas END
+    (69) expressao -> . expressaonum
+    (70) expressao -> . expressaopilha
+    (71) expressaonum -> . termo
+    (72) expressaonum -> . ID argumentos
+    (86) expressaopilha -> . oppilha LPAREN conteudo RPAREN
+    (87) expressaopilha -> . CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+    (88) expressaopilha -> . INVERTE LPAREN conteudo RPAREN
+    (82) termo -> . operador LPAREN operando COMMA operando RPAREN
+    (83) termo -> . ID
+    (84) termo -> . integernum
+    (85) termo -> . realnum
+    (96) oppilha -> . INPUT
+    (97) oppilha -> . OUTPUT
+    (98) oppilha -> . LENGTH
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    ID              shift and go to state 84
+    CONCATENA       shift and go to state 90
+    INVERTE         shift and go to state 91
+    INPUT           shift and go to state 95
+    OUTPUT          shift and go to state 96
+    LENGTH          shift and go to state 97
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    expressao                      shift and go to state 128
+    expressaonum                   shift and go to state 86
+    expressaopilha                 shift and go to state 87
+    termo                          shift and go to state 88
+    oppilha                        shift and go to state 89
+    operador                       shift and go to state 92
+    integernum                     shift and go to state 93
+    realnum                        shift and go to state 94
+
+state 84
+
+    (72) expressaonum -> ID . argumentos
+    (83) termo -> ID .
+    (54) argumentos -> . LPAREN listaarg RPAREN
+    (55) argumentos -> . empty
+    (3) empty -> .
+
+  ! reduce/reduce conflict for DOTCOMMA resolved using rule 3 (empty -> .)
+  ! reduce/reduce conflict for COMMA resolved using rule 3 (empty -> .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 3 (empty -> .)
+  ! reduce/reduce conflict for TO resolved using rule 3 (empty -> .)
+  ! reduce/reduce conflict for DO resolved using rule 3 (empty -> .)
+    LPAREN          shift and go to state 59
+    DOTCOMMA        reduce using rule 3 (empty -> .)
+    COMMA           reduce using rule 3 (empty -> .)
+    RPAREN          reduce using rule 3 (empty -> .)
+    TO              reduce using rule 3 (empty -> .)
+    DO              reduce using rule 3 (empty -> .)
+
+  ! DOTCOMMA        [ reduce using rule 83 (termo -> ID .) ]
+  ! COMMA           [ reduce using rule 83 (termo -> ID .) ]
+  ! RPAREN          [ reduce using rule 83 (termo -> ID .) ]
+  ! TO              [ reduce using rule 83 (termo -> ID .) ]
+  ! DO              [ reduce using rule 83 (termo -> ID .) ]
+
+    argumentos                     shift and go to state 129
+    empty                          shift and go to state 60
+
+state 85
+
+    (52) atribuicao -> ID ATTR expressao .
+
+    DOTCOMMA        reduce using rule 52 (atribuicao -> ID ATTR expressao .)
+
+
+state 86
+
+    (69) expressao -> expressaonum .
+
+    DOTCOMMA        reduce using rule 69 (expressao -> expressaonum .)
+    COMMA           reduce using rule 69 (expressao -> expressaonum .)
+    RPAREN          reduce using rule 69 (expressao -> expressaonum .)
+    TO              reduce using rule 69 (expressao -> expressaonum .)
+    DO              reduce using rule 69 (expressao -> expressaonum .)
+
+
+state 87
+
+    (70) expressao -> expressaopilha .
+
+    DOTCOMMA        reduce using rule 70 (expressao -> expressaopilha .)
+    COMMA           reduce using rule 70 (expressao -> expressaopilha .)
+    RPAREN          reduce using rule 70 (expressao -> expressaopilha .)
+    TO              reduce using rule 70 (expressao -> expressaopilha .)
+    DO              reduce using rule 70 (expressao -> expressaopilha .)
+
+
+state 88
+
+    (71) expressaonum -> termo .
+
+    DOTCOMMA        reduce using rule 71 (expressaonum -> termo .)
+    COMMA           reduce using rule 71 (expressaonum -> termo .)
+    RPAREN          reduce using rule 71 (expressaonum -> termo .)
+    TO              reduce using rule 71 (expressaonum -> termo .)
+    DO              reduce using rule 71 (expressaonum -> termo .)
+
+
+state 89
+
+    (86) expressaopilha -> oppilha . LPAREN conteudo RPAREN
+
+    LPAREN          shift and go to state 130
+
+
+state 90
+
+    (87) expressaopilha -> CONCATENA . LPAREN conteudo COMMA conteudo RPAREN
+
+    LPAREN          shift and go to state 131
+
+
+state 91
+
+    (88) expressaopilha -> INVERTE . LPAREN conteudo RPAREN
+
+    LPAREN          shift and go to state 132
+
+
+state 92
+
+    (82) termo -> operador . LPAREN operando COMMA operando RPAREN
+
+    LPAREN          shift and go to state 133
+
+
+state 93
+
+    (84) termo -> integernum .
+
+    DOTCOMMA        reduce using rule 84 (termo -> integernum .)
+    COMMA           reduce using rule 84 (termo -> integernum .)
+    RPAREN          reduce using rule 84 (termo -> integernum .)
+    TO              reduce using rule 84 (termo -> integernum .)
+    DO              reduce using rule 84 (termo -> integernum .)
+
+
+state 94
+
+    (85) termo -> realnum .
+
+    DOTCOMMA        reduce using rule 85 (termo -> realnum .)
+    COMMA           reduce using rule 85 (termo -> realnum .)
+    RPAREN          reduce using rule 85 (termo -> realnum .)
+    TO              reduce using rule 85 (termo -> realnum .)
+    DO              reduce using rule 85 (termo -> realnum .)
+
+
+state 95
+
+    (96) oppilha -> INPUT .
+
+    LPAREN          reduce using rule 96 (oppilha -> INPUT .)
+
+
+state 96
+
+    (97) oppilha -> OUTPUT .
+
+    LPAREN          reduce using rule 97 (oppilha -> OUTPUT .)
+
+
+state 97
+
+    (98) oppilha -> LENGTH .
+
+    LPAREN          reduce using rule 98 (oppilha -> LENGTH .)
+
+
+state 98
+
+    (77) operador -> PLUS .
+
+    LPAREN          reduce using rule 77 (operador -> PLUS .)
+
+
+state 99
+
+    (78) operador -> MINUS .
+
+    LPAREN          reduce using rule 78 (operador -> MINUS .)
+
+
+state 100
+
+    (79) operador -> TIMES .
+
+    LPAREN          reduce using rule 79 (operador -> TIMES .)
+
+
+state 101
+
+    (80) operador -> DIVIDE .
+
+    LPAREN          reduce using rule 80 (operador -> DIVIDE .)
+
+
+state 102
+
+    (81) operador -> DIVIDER .
+
+    LPAREN          reduce using rule 81 (operador -> DIVIDER .)
+
+
+state 103
+
+    (99) integernum -> NUMBER .
+
+    DOTCOMMA        reduce using rule 99 (integernum -> NUMBER .)
+    COMMA           reduce using rule 99 (integernum -> NUMBER .)
+    RPAREN          reduce using rule 99 (integernum -> NUMBER .)
+    TO              reduce using rule 99 (integernum -> NUMBER .)
+    DO              reduce using rule 99 (integernum -> NUMBER .)
+    HASHTAG         reduce using rule 99 (integernum -> NUMBER .)
+
+
+state 104
+
+    (100) realnum -> RNUMBER .
+
+    DOTCOMMA        reduce using rule 100 (realnum -> RNUMBER .)
+    COMMA           reduce using rule 100 (realnum -> RNUMBER .)
+    RPAREN          reduce using rule 100 (realnum -> RNUMBER .)
+    TO              reduce using rule 100 (realnum -> RNUMBER .)
+    DO              reduce using rule 100 (realnum -> RNUMBER .)
+    HASHTAG         reduce using rule 100 (realnum -> RNUMBER .)
+
+
+state 105
+
+    (54) argumentos -> LPAREN listaarg . RPAREN
+
+    RPAREN          shift and go to state 134
+
+
+state 106
+
+    (56) listaarg -> expressao . contlistaarg
+    (57) contlistaarg -> . COMMA listaarg
+    (58) contlistaarg -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 136
+    RPAREN          reduce using rule 3 (empty -> .)
+
+    contlistaarg                   shift and go to state 135
+    empty                          shift and go to state 137
+
+state 107
+
+    (48) comando -> WRITE LPAREN varwrite . RPAREN
+
+    RPAREN          shift and go to state 138
+
+
+state 108
+
+    (41) varwrite -> ID . maisvarwrite
+    (42) maisvarwrite -> . COMMA varwrite
+    (43) maisvarwrite -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 140
+    RPAREN          reduce using rule 3 (empty -> .)
+
+    maisvarwrite                   shift and go to state 139
+    empty                          shift and go to state 141
+
+state 109
+
+    (49) comando -> WHILE LPAREN condicao . RPAREN DO BEGIN sentencas END
+
+    RPAREN          shift and go to state 142
+
+
+state 110
+
+    (50) comando -> REPEAT sentencas UNTIL . LPAREN condicao RPAREN
+
+    LPAREN          shift and go to state 143
+
+
+state 111
+
+    (20) procedimento -> PROCEDURE ID parametros DOTCOMMA corpo . DOTCOMMA rotina
+
+    DOTCOMMA        shift and go to state 144
+
+
+state 112
+
+    (22) parametros -> LPAREN listaparametros RPAREN .
+
+    DOTCOMMA        reduce using rule 22 (parametros -> LPAREN listaparametros RPAREN .)
+    TWODOT          reduce using rule 22 (parametros -> LPAREN listaparametros RPAREN .)
+
+
+state 113
+
+    (24) listaparametros -> listaid TWODOT . tipovar contlistapar
+    (10) tipovar -> . INTEGER
+    (11) tipovar -> . REAL
+    (12) tipovar -> . PILHAINTEGER
+    (13) tipovar -> . PILHAREAL
+
+    INTEGER         shift and go to state 46
+    REAL            shift and go to state 47
+    PILHAINTEGER    shift and go to state 48
+    PILHAREAL       shift and go to state 49
+
+    tipovar                        shift and go to state 145
+
+state 114
+
+    (27) listaid -> ID contlistaid .
+
+    TWODOT          reduce using rule 27 (listaid -> ID contlistaid .)
+
+
+state 115
+
+    (28) contlistaid -> DOTCOMMA . listaparametros
+    (24) listaparametros -> . listaid TWODOT tipovar contlistapar
+    (27) listaid -> . ID contlistaid
+
+    ID              shift and go to state 67
+
+    listaparametros                shift and go to state 146
+    listaid                        shift and go to state 66
+
+state 116
+
+    (29) contlistaid -> empty .
+
+    TWODOT          reduce using rule 29 (contlistaid -> empty .)
+
+
+state 117
+
+    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao . DOTCOMMA corpo DOTCOMMA rotina
+
+    DOTCOMMA        shift and go to state 147
+
+
+state 118
+
+    (30) tipofuncao -> INTEGER .
+
+    DOTCOMMA        reduce using rule 30 (tipofuncao -> INTEGER .)
+
+
+state 119
+
+    (31) tipofuncao -> REAL .
+
+    DOTCOMMA        reduce using rule 31 (tipofuncao -> REAL .)
+
+
+state 120
+
+    (32) tipofuncao -> PILHAINTEGER .
+
+    DOTCOMMA        reduce using rule 32 (tipofuncao -> PILHAINTEGER .)
+
+
+state 121
+
+    (33) tipofuncao -> PILHAREAL .
+
+    DOTCOMMA        reduce using rule 33 (tipofuncao -> PILHAREAL .)
+
+
+state 122
+
+    (44) comando -> READ LPAREN varread RPAREN .
+
+    DOTCOMMA        reduce using rule 44 (comando -> READ LPAREN varread RPAREN .)
+
+
+state 123
+
+    (38) varread -> ID maisvarread .
+
+    RPAREN          reduce using rule 38 (varread -> ID maisvarread .)
+
+
+state 124
+
+    (39) maisvarread -> COMMA . varread
+    (38) varread -> . ID maisvarread
+
+    ID              shift and go to state 74
+
+    varread                        shift and go to state 148
+
+state 125
+
+    (40) maisvarread -> empty .
+
+    RPAREN          reduce using rule 40 (maisvarread -> empty .)
+
+
+state 126
+
+    (45) comando -> IF LPAREN condicao RPAREN . THEN BEGIN sentencas END pfalsa
+
+    THEN            shift and go to state 149
+
+
+state 127
+
+    (59) condicao -> relacao LPAREN . expressaonum COMMA expressaonum RPAREN
+    (60) condicao -> relacao LPAREN . expressaopilha COMMA expressaopilha RPAREN
+    (71) expressaonum -> . termo
+    (72) expressaonum -> . ID argumentos
+    (86) expressaopilha -> . oppilha LPAREN conteudo RPAREN
+    (87) expressaopilha -> . CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+    (88) expressaopilha -> . INVERTE LPAREN conteudo RPAREN
+    (82) termo -> . operador LPAREN operando COMMA operando RPAREN
+    (83) termo -> . ID
+    (84) termo -> . integernum
+    (85) termo -> . realnum
+    (96) oppilha -> . INPUT
+    (97) oppilha -> . OUTPUT
+    (98) oppilha -> . LENGTH
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    ID              shift and go to state 84
+    CONCATENA       shift and go to state 90
+    INVERTE         shift and go to state 91
+    INPUT           shift and go to state 95
+    OUTPUT          shift and go to state 96
+    LENGTH          shift and go to state 97
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    expressaonum                   shift and go to state 150
+    expressaopilha                 shift and go to state 151
+    termo                          shift and go to state 88
+    oppilha                        shift and go to state 89
+    operador                       shift and go to state 92
+    integernum                     shift and go to state 93
+    realnum                        shift and go to state 94
+
+state 128
+
+    (46) comando -> FOR ID ATTR expressao . TO expressao DO BEGIN sentencas END
+
+    TO              shift and go to state 152
+
+
+state 129
+
+    (72) expressaonum -> ID argumentos .
+
+    DOTCOMMA        reduce using rule 72 (expressaonum -> ID argumentos .)
+    COMMA           reduce using rule 72 (expressaonum -> ID argumentos .)
+    RPAREN          reduce using rule 72 (expressaonum -> ID argumentos .)
+    TO              reduce using rule 72 (expressaonum -> ID argumentos .)
+    DO              reduce using rule 72 (expressaonum -> ID argumentos .)
+
+
+state 130
+
+    (86) expressaopilha -> oppilha LPAREN . conteudo RPAREN
+    (89) conteudo -> . HASHTAG HASHTAG
+    (90) conteudo -> . HASHTAG integernum integernumcont HASHTAG
+    (91) conteudo -> . HASHTAG realnum realnumcont HASHTAG
+
+    HASHTAG         shift and go to state 154
+
+    conteudo                       shift and go to state 153
+
+state 131
+
+    (87) expressaopilha -> CONCATENA LPAREN . conteudo COMMA conteudo RPAREN
+    (89) conteudo -> . HASHTAG HASHTAG
+    (90) conteudo -> . HASHTAG integernum integernumcont HASHTAG
+    (91) conteudo -> . HASHTAG realnum realnumcont HASHTAG
+
+    HASHTAG         shift and go to state 154
+
+    conteudo                       shift and go to state 155
+
+state 132
+
+    (88) expressaopilha -> INVERTE LPAREN . conteudo RPAREN
+    (89) conteudo -> . HASHTAG HASHTAG
+    (90) conteudo -> . HASHTAG integernum integernumcont HASHTAG
+    (91) conteudo -> . HASHTAG realnum realnumcont HASHTAG
+
+    HASHTAG         shift and go to state 154
+
+    conteudo                       shift and go to state 156
+
+state 133
+
+    (82) termo -> operador LPAREN . operando COMMA operando RPAREN
+    (73) operando -> . ID
+    (74) operando -> . integernum
+    (75) operando -> . realnum
+    (76) operando -> . operador LPAREN operando COMMA operando RPAREN
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+
+    ID              shift and go to state 159
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+
+    operador                       shift and go to state 157
+    operando                       shift and go to state 158
+    integernum                     shift and go to state 160
+    realnum                        shift and go to state 161
+
+state 134
+
+    (54) argumentos -> LPAREN listaarg RPAREN .
+
+    DOTCOMMA        reduce using rule 54 (argumentos -> LPAREN listaarg RPAREN .)
+    COMMA           reduce using rule 54 (argumentos -> LPAREN listaarg RPAREN .)
+    RPAREN          reduce using rule 54 (argumentos -> LPAREN listaarg RPAREN .)
+    TO              reduce using rule 54 (argumentos -> LPAREN listaarg RPAREN .)
+    DO              reduce using rule 54 (argumentos -> LPAREN listaarg RPAREN .)
+
+
+state 135
+
+    (56) listaarg -> expressao contlistaarg .
+
+    RPAREN          reduce using rule 56 (listaarg -> expressao contlistaarg .)
+
+
+state 136
+
+    (57) contlistaarg -> COMMA . listaarg
+    (56) listaarg -> . expressao contlistaarg
+    (69) expressao -> . expressaonum
+    (70) expressao -> . expressaopilha
+    (71) expressaonum -> . termo
+    (72) expressaonum -> . ID argumentos
+    (86) expressaopilha -> . oppilha LPAREN conteudo RPAREN
+    (87) expressaopilha -> . CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+    (88) expressaopilha -> . INVERTE LPAREN conteudo RPAREN
+    (82) termo -> . operador LPAREN operando COMMA operando RPAREN
+    (83) termo -> . ID
+    (84) termo -> . integernum
+    (85) termo -> . realnum
+    (96) oppilha -> . INPUT
+    (97) oppilha -> . OUTPUT
+    (98) oppilha -> . LENGTH
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    ID              shift and go to state 84
+    CONCATENA       shift and go to state 90
+    INVERTE         shift and go to state 91
+    INPUT           shift and go to state 95
+    OUTPUT          shift and go to state 96
+    LENGTH          shift and go to state 97
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    listaarg                       shift and go to state 162
+    expressao                      shift and go to state 106
+    expressaonum                   shift and go to state 86
+    expressaopilha                 shift and go to state 87
+    termo                          shift and go to state 88
+    oppilha                        shift and go to state 89
+    operador                       shift and go to state 92
+    integernum                     shift and go to state 93
+    realnum                        shift and go to state 94
+
+state 137
+
+    (58) contlistaarg -> empty .
+
+    RPAREN          reduce using rule 58 (contlistaarg -> empty .)
+
+
+state 138
+
+    (48) comando -> WRITE LPAREN varwrite RPAREN .
+
+    DOTCOMMA        reduce using rule 48 (comando -> WRITE LPAREN varwrite RPAREN .)
+
+
+state 139
+
+    (41) varwrite -> ID maisvarwrite .
+
+    RPAREN          reduce using rule 41 (varwrite -> ID maisvarwrite .)
+
+
+state 140
+
+    (42) maisvarwrite -> COMMA . varwrite
+    (41) varwrite -> . ID maisvarwrite
+
+    ID              shift and go to state 108
+
+    varwrite                       shift and go to state 163
+
+state 141
+
+    (43) maisvarwrite -> empty .
+
+    RPAREN          reduce using rule 43 (maisvarwrite -> empty .)
+
+
+state 142
+
+    (49) comando -> WHILE LPAREN condicao RPAREN . DO BEGIN sentencas END
+
+    DO              shift and go to state 164
+
+
+state 143
+
+    (50) comando -> REPEAT sentencas UNTIL LPAREN . condicao RPAREN
+    (59) condicao -> . relacao LPAREN expressaonum COMMA expressaonum RPAREN
+    (60) condicao -> . relacao LPAREN expressaopilha COMMA expressaopilha RPAREN
+    (63) relacao -> . EQUALS
+    (64) relacao -> . GREAT
+    (65) relacao -> . LESS
+    (66) relacao -> . GREATEQ
+    (67) relacao -> . LESSEQ
+    (68) relacao -> . DIFFERENT
+
+    EQUALS          shift and go to state 77
+    GREAT           shift and go to state 78
+    LESS            shift and go to state 79
+    GREATEQ         shift and go to state 80
+    LESSEQ          shift and go to state 81
+    DIFFERENT       shift and go to state 82
+
+    condicao                       shift and go to state 165
+    relacao                        shift and go to state 76
+
+state 144
+
+    (20) procedimento -> PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA . rotina
+    (17) rotina -> . procedimento
+    (18) rotina -> . funcao
+    (19) rotina -> . empty
+    (20) procedimento -> . PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> . FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (3) empty -> .
+
+    PROCEDURE       shift and go to state 13
+    FUNCTION        shift and go to state 14
+    BEGIN           reduce using rule 3 (empty -> .)
+
+    rotina                         shift and go to state 166
+    procedimento                   shift and go to state 10
+    funcao                         shift and go to state 11
+    empty                          shift and go to state 12
+
+state 145
+
+    (24) listaparametros -> listaid TWODOT tipovar . contlistapar
+    (25) contlistapar -> . DOTCOMMA listaparametros
+    (26) contlistapar -> . empty
+    (3) empty -> .
+
+    DOTCOMMA        shift and go to state 168
+    RPAREN          reduce using rule 3 (empty -> .)
+    TWODOT          reduce using rule 3 (empty -> .)
+
+    contlistapar                   shift and go to state 167
+    empty                          shift and go to state 169
+
+state 146
+
+    (28) contlistaid -> DOTCOMMA listaparametros .
+
+    TWODOT          reduce using rule 28 (contlistaid -> DOTCOMMA listaparametros .)
+
+
+state 147
+
+    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA . corpo DOTCOMMA rotina
+    (2) corpo -> . declara rotina BEGIN sentencas END
+    (4) declara -> . VAR dvar maisdc
+    (5) declara -> . empty
+    (3) empty -> .
+
+    VAR             shift and go to state 7
+    PROCEDURE       reduce using rule 3 (empty -> .)
+    FUNCTION        reduce using rule 3 (empty -> .)
+    BEGIN           reduce using rule 3 (empty -> .)
+
+    corpo                          shift and go to state 170
+    declara                        shift and go to state 6
+    empty                          shift and go to state 8
+
+state 148
+
+    (39) maisvarread -> COMMA varread .
+
+    RPAREN          reduce using rule 39 (maisvarread -> COMMA varread .)
+
+
+state 149
+
+    (45) comando -> IF LPAREN condicao RPAREN THEN . BEGIN sentencas END pfalsa
+
+    BEGIN           shift and go to state 171
+
+
+state 150
+
+    (59) condicao -> relacao LPAREN expressaonum . COMMA expressaonum RPAREN
+
+    COMMA           shift and go to state 172
+
+
+state 151
+
+    (60) condicao -> relacao LPAREN expressaopilha . COMMA expressaopilha RPAREN
+
+    COMMA           shift and go to state 173
+
+
+state 152
+
+    (46) comando -> FOR ID ATTR expressao TO . expressao DO BEGIN sentencas END
+    (69) expressao -> . expressaonum
+    (70) expressao -> . expressaopilha
+    (71) expressaonum -> . termo
+    (72) expressaonum -> . ID argumentos
+    (86) expressaopilha -> . oppilha LPAREN conteudo RPAREN
+    (87) expressaopilha -> . CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+    (88) expressaopilha -> . INVERTE LPAREN conteudo RPAREN
+    (82) termo -> . operador LPAREN operando COMMA operando RPAREN
+    (83) termo -> . ID
+    (84) termo -> . integernum
+    (85) termo -> . realnum
+    (96) oppilha -> . INPUT
+    (97) oppilha -> . OUTPUT
+    (98) oppilha -> . LENGTH
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    ID              shift and go to state 84
+    CONCATENA       shift and go to state 90
+    INVERTE         shift and go to state 91
+    INPUT           shift and go to state 95
+    OUTPUT          shift and go to state 96
+    LENGTH          shift and go to state 97
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    expressao                      shift and go to state 174
+    expressaonum                   shift and go to state 86
+    expressaopilha                 shift and go to state 87
+    termo                          shift and go to state 88
+    oppilha                        shift and go to state 89
+    operador                       shift and go to state 92
+    integernum                     shift and go to state 93
+    realnum                        shift and go to state 94
+
+state 153
+
+    (86) expressaopilha -> oppilha LPAREN conteudo . RPAREN
+
+    RPAREN          shift and go to state 175
+
+
+state 154
+
+    (89) conteudo -> HASHTAG . HASHTAG
+    (90) conteudo -> HASHTAG . integernum integernumcont HASHTAG
+    (91) conteudo -> HASHTAG . realnum realnumcont HASHTAG
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    HASHTAG         shift and go to state 176
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    integernum                     shift and go to state 177
+    realnum                        shift and go to state 178
+
+state 155
+
+    (87) expressaopilha -> CONCATENA LPAREN conteudo . COMMA conteudo RPAREN
+
+    COMMA           shift and go to state 179
+
+
+state 156
+
+    (88) expressaopilha -> INVERTE LPAREN conteudo . RPAREN
+
+    RPAREN          shift and go to state 180
+
+
+state 157
+
+    (76) operando -> operador . LPAREN operando COMMA operando RPAREN
+
+    LPAREN          shift and go to state 181
+
+
+state 158
+
+    (82) termo -> operador LPAREN operando . COMMA operando RPAREN
+
+    COMMA           shift and go to state 182
+
+
+state 159
+
+    (73) operando -> ID .
+
+    COMMA           reduce using rule 73 (operando -> ID .)
+    RPAREN          reduce using rule 73 (operando -> ID .)
+
+
+state 160
+
+    (74) operando -> integernum .
+
+    COMMA           reduce using rule 74 (operando -> integernum .)
+    RPAREN          reduce using rule 74 (operando -> integernum .)
+
+
+state 161
+
+    (75) operando -> realnum .
+
+    COMMA           reduce using rule 75 (operando -> realnum .)
+    RPAREN          reduce using rule 75 (operando -> realnum .)
+
+
+state 162
+
+    (57) contlistaarg -> COMMA listaarg .
+
+    RPAREN          reduce using rule 57 (contlistaarg -> COMMA listaarg .)
+
+
+state 163
+
+    (42) maisvarwrite -> COMMA varwrite .
+
+    RPAREN          reduce using rule 42 (maisvarwrite -> COMMA varwrite .)
+
+
+state 164
+
+    (49) comando -> WHILE LPAREN condicao RPAREN DO . BEGIN sentencas END
+
+    BEGIN           shift and go to state 183
+
+
+state 165
+
+    (50) comando -> REPEAT sentencas UNTIL LPAREN condicao . RPAREN
+
+    RPAREN          shift and go to state 184
+
+
+state 166
+
+    (20) procedimento -> PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina .
+
+    BEGIN           reduce using rule 20 (procedimento -> PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina .)
+
+
+state 167
+
+    (24) listaparametros -> listaid TWODOT tipovar contlistapar .
+
+    RPAREN          reduce using rule 24 (listaparametros -> listaid TWODOT tipovar contlistapar .)
+    TWODOT          reduce using rule 24 (listaparametros -> listaid TWODOT tipovar contlistapar .)
+
+
+state 168
+
+    (25) contlistapar -> DOTCOMMA . listaparametros
+    (24) listaparametros -> . listaid TWODOT tipovar contlistapar
+    (27) listaid -> . ID contlistaid
+
+    ID              shift and go to state 67
+
+    listaparametros                shift and go to state 185
+    listaid                        shift and go to state 66
+
+state 169
+
+    (26) contlistapar -> empty .
+
+    RPAREN          reduce using rule 26 (contlistapar -> empty .)
+    TWODOT          reduce using rule 26 (contlistapar -> empty .)
+
+
+state 170
+
+    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo . DOTCOMMA rotina
+
+    DOTCOMMA        shift and go to state 186
+
+
+state 171
+
+    (45) comando -> IF LPAREN condicao RPAREN THEN BEGIN . sentencas END pfalsa
+    (34) sentencas -> . comando maissentencas
+    (44) comando -> . READ LPAREN varread RPAREN
+    (45) comando -> . IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (46) comando -> . FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+    (47) comando -> . atribuicao
+    (48) comando -> . WRITE LPAREN varwrite RPAREN
+    (49) comando -> . WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+    (50) comando -> . REPEAT sentencas UNTIL LPAREN condicao RPAREN
+    (51) comando -> . chamadaprocedimento
+    (52) atribuicao -> . ID ATTR expressao
+    (53) chamadaprocedimento -> . ID argumentos
+
+    READ            shift and go to state 29
+    IF              shift and go to state 30
+    FOR             shift and go to state 31
+    WRITE           shift and go to state 34
+    WHILE           shift and go to state 35
+    REPEAT          shift and go to state 36
+    ID              shift and go to state 32
+
+    sentencas                      shift and go to state 187
+    comando                        shift and go to state 28
+    atribuicao                     shift and go to state 33
+    chamadaprocedimento            shift and go to state 37
+
+state 172
+
+    (59) condicao -> relacao LPAREN expressaonum COMMA . expressaonum RPAREN
+    (71) expressaonum -> . termo
+    (72) expressaonum -> . ID argumentos
+    (82) termo -> . operador LPAREN operando COMMA operando RPAREN
+    (83) termo -> . ID
+    (84) termo -> . integernum
+    (85) termo -> . realnum
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+
+    ID              shift and go to state 84
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+
+    expressaonum                   shift and go to state 188
+    termo                          shift and go to state 88
+    operador                       shift and go to state 92
+    integernum                     shift and go to state 93
+    realnum                        shift and go to state 94
+
+state 173
+
+    (60) condicao -> relacao LPAREN expressaopilha COMMA . expressaopilha RPAREN
+    (86) expressaopilha -> . oppilha LPAREN conteudo RPAREN
+    (87) expressaopilha -> . CONCATENA LPAREN conteudo COMMA conteudo RPAREN
+    (88) expressaopilha -> . INVERTE LPAREN conteudo RPAREN
+    (96) oppilha -> . INPUT
+    (97) oppilha -> . OUTPUT
+    (98) oppilha -> . LENGTH
+
+    CONCATENA       shift and go to state 90
+    INVERTE         shift and go to state 91
+    INPUT           shift and go to state 95
+    OUTPUT          shift and go to state 96
+    LENGTH          shift and go to state 97
+
+    expressaopilha                 shift and go to state 189
+    oppilha                        shift and go to state 89
+
+state 174
+
+    (46) comando -> FOR ID ATTR expressao TO expressao . DO BEGIN sentencas END
+
+    DO              shift and go to state 190
+
+
+state 175
+
+    (86) expressaopilha -> oppilha LPAREN conteudo RPAREN .
+
+    DOTCOMMA        reduce using rule 86 (expressaopilha -> oppilha LPAREN conteudo RPAREN .)
+    COMMA           reduce using rule 86 (expressaopilha -> oppilha LPAREN conteudo RPAREN .)
+    RPAREN          reduce using rule 86 (expressaopilha -> oppilha LPAREN conteudo RPAREN .)
+    TO              reduce using rule 86 (expressaopilha -> oppilha LPAREN conteudo RPAREN .)
+    DO              reduce using rule 86 (expressaopilha -> oppilha LPAREN conteudo RPAREN .)
+
+
+state 176
+
+    (89) conteudo -> HASHTAG HASHTAG .
+
+    RPAREN          reduce using rule 89 (conteudo -> HASHTAG HASHTAG .)
+    COMMA           reduce using rule 89 (conteudo -> HASHTAG HASHTAG .)
+
+
+state 177
+
+    (90) conteudo -> HASHTAG integernum . integernumcont HASHTAG
+    (92) integernumcont -> . COMMA integernum integernumcont
+    (93) integernumcont -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 192
+    HASHTAG         reduce using rule 3 (empty -> .)
+
+    integernumcont                 shift and go to state 191
+    empty                          shift and go to state 193
+
+state 178
+
+    (91) conteudo -> HASHTAG realnum . realnumcont HASHTAG
+    (94) realnumcont -> . COMMA realnum realnumcont
+    (95) realnumcont -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 195
+    HASHTAG         reduce using rule 3 (empty -> .)
+
+    realnumcont                    shift and go to state 194
+    empty                          shift and go to state 196
+
+state 179
+
+    (87) expressaopilha -> CONCATENA LPAREN conteudo COMMA . conteudo RPAREN
+    (89) conteudo -> . HASHTAG HASHTAG
+    (90) conteudo -> . HASHTAG integernum integernumcont HASHTAG
+    (91) conteudo -> . HASHTAG realnum realnumcont HASHTAG
+
+    HASHTAG         shift and go to state 154
+
+    conteudo                       shift and go to state 197
+
+state 180
+
+    (88) expressaopilha -> INVERTE LPAREN conteudo RPAREN .
+
+    DOTCOMMA        reduce using rule 88 (expressaopilha -> INVERTE LPAREN conteudo RPAREN .)
+    COMMA           reduce using rule 88 (expressaopilha -> INVERTE LPAREN conteudo RPAREN .)
+    RPAREN          reduce using rule 88 (expressaopilha -> INVERTE LPAREN conteudo RPAREN .)
+    TO              reduce using rule 88 (expressaopilha -> INVERTE LPAREN conteudo RPAREN .)
+    DO              reduce using rule 88 (expressaopilha -> INVERTE LPAREN conteudo RPAREN .)
+
+
+state 181
+
+    (76) operando -> operador LPAREN . operando COMMA operando RPAREN
+    (73) operando -> . ID
+    (74) operando -> . integernum
+    (75) operando -> . realnum
+    (76) operando -> . operador LPAREN operando COMMA operando RPAREN
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+
+    ID              shift and go to state 159
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+
+    operador                       shift and go to state 157
+    operando                       shift and go to state 198
+    integernum                     shift and go to state 160
+    realnum                        shift and go to state 161
+
+state 182
+
+    (82) termo -> operador LPAREN operando COMMA . operando RPAREN
+    (73) operando -> . ID
+    (74) operando -> . integernum
+    (75) operando -> . realnum
+    (76) operando -> . operador LPAREN operando COMMA operando RPAREN
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+
+    ID              shift and go to state 159
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+
+    operador                       shift and go to state 157
+    operando                       shift and go to state 199
+    integernum                     shift and go to state 160
+    realnum                        shift and go to state 161
+
+state 183
+
+    (49) comando -> WHILE LPAREN condicao RPAREN DO BEGIN . sentencas END
+    (34) sentencas -> . comando maissentencas
+    (44) comando -> . READ LPAREN varread RPAREN
+    (45) comando -> . IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (46) comando -> . FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+    (47) comando -> . atribuicao
+    (48) comando -> . WRITE LPAREN varwrite RPAREN
+    (49) comando -> . WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+    (50) comando -> . REPEAT sentencas UNTIL LPAREN condicao RPAREN
+    (51) comando -> . chamadaprocedimento
+    (52) atribuicao -> . ID ATTR expressao
+    (53) chamadaprocedimento -> . ID argumentos
+
+    READ            shift and go to state 29
+    IF              shift and go to state 30
+    FOR             shift and go to state 31
+    WRITE           shift and go to state 34
+    WHILE           shift and go to state 35
+    REPEAT          shift and go to state 36
+    ID              shift and go to state 32
+
+    sentencas                      shift and go to state 200
+    comando                        shift and go to state 28
+    atribuicao                     shift and go to state 33
+    chamadaprocedimento            shift and go to state 37
+
+state 184
+
+    (50) comando -> REPEAT sentencas UNTIL LPAREN condicao RPAREN .
+
+    DOTCOMMA        reduce using rule 50 (comando -> REPEAT sentencas UNTIL LPAREN condicao RPAREN .)
+
+
+state 185
+
+    (25) contlistapar -> DOTCOMMA listaparametros .
+
+    RPAREN          reduce using rule 25 (contlistapar -> DOTCOMMA listaparametros .)
+    TWODOT          reduce using rule 25 (contlistapar -> DOTCOMMA listaparametros .)
+
+
+state 186
+
+    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA . rotina
+    (17) rotina -> . procedimento
+    (18) rotina -> . funcao
+    (19) rotina -> . empty
+    (20) procedimento -> . PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> . FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (3) empty -> .
+
+    PROCEDURE       shift and go to state 13
+    FUNCTION        shift and go to state 14
+    BEGIN           reduce using rule 3 (empty -> .)
+
+    rotina                         shift and go to state 201
+    procedimento                   shift and go to state 10
+    funcao                         shift and go to state 11
+    empty                          shift and go to state 12
+
+state 187
+
+    (45) comando -> IF LPAREN condicao RPAREN THEN BEGIN sentencas . END pfalsa
+
+    END             shift and go to state 202
+
+
+state 188
+
+    (59) condicao -> relacao LPAREN expressaonum COMMA expressaonum . RPAREN
+
+    RPAREN          shift and go to state 203
+
+
+state 189
+
+    (60) condicao -> relacao LPAREN expressaopilha COMMA expressaopilha . RPAREN
+
+    RPAREN          shift and go to state 204
+
+
+state 190
+
+    (46) comando -> FOR ID ATTR expressao TO expressao DO . BEGIN sentencas END
+
+    BEGIN           shift and go to state 205
+
+
+state 191
+
+    (90) conteudo -> HASHTAG integernum integernumcont . HASHTAG
+
+    HASHTAG         shift and go to state 206
+
+
+state 192
+
+    (92) integernumcont -> COMMA . integernum integernumcont
+    (99) integernum -> . NUMBER
+
+    NUMBER          shift and go to state 103
+
+    integernum                     shift and go to state 207
+
+state 193
+
+    (93) integernumcont -> empty .
+
+    HASHTAG         reduce using rule 93 (integernumcont -> empty .)
+
+
+state 194
+
+    (91) conteudo -> HASHTAG realnum realnumcont . HASHTAG
+
+    HASHTAG         shift and go to state 208
+
+
+state 195
+
+    (94) realnumcont -> COMMA . realnum realnumcont
+    (100) realnum -> . RNUMBER
+
+    RNUMBER         shift and go to state 104
+
+    realnum                        shift and go to state 209
+
+state 196
+
+    (95) realnumcont -> empty .
+
+    HASHTAG         reduce using rule 95 (realnumcont -> empty .)
+
+
+state 197
+
+    (87) expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo . RPAREN
+
+    RPAREN          shift and go to state 210
+
+
+state 198
+
+    (76) operando -> operador LPAREN operando . COMMA operando RPAREN
+
+    COMMA           shift and go to state 211
+
+
+state 199
+
+    (82) termo -> operador LPAREN operando COMMA operando . RPAREN
+
+    RPAREN          shift and go to state 212
+
+
+state 200
+
+    (49) comando -> WHILE LPAREN condicao RPAREN DO BEGIN sentencas . END
+
+    END             shift and go to state 213
+
+
+state 201
+
+    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina .
+
+    BEGIN           reduce using rule 21 (funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina .)
+
+
+state 202
+
+    (45) comando -> IF LPAREN condicao RPAREN THEN BEGIN sentencas END . pfalsa
+    (61) pfalsa -> . ELSE BEGIN sentencas END
+    (62) pfalsa -> . empty
+    (3) empty -> .
+
+    ELSE            shift and go to state 215
+    DOTCOMMA        reduce using rule 3 (empty -> .)
+
+    pfalsa                         shift and go to state 214
+    empty                          shift and go to state 216
+
+state 203
+
+    (59) condicao -> relacao LPAREN expressaonum COMMA expressaonum RPAREN .
+
+    RPAREN          reduce using rule 59 (condicao -> relacao LPAREN expressaonum COMMA expressaonum RPAREN .)
+
+
+state 204
+
+    (60) condicao -> relacao LPAREN expressaopilha COMMA expressaopilha RPAREN .
+
+    RPAREN          reduce using rule 60 (condicao -> relacao LPAREN expressaopilha COMMA expressaopilha RPAREN .)
+
+
+state 205
+
+    (46) comando -> FOR ID ATTR expressao TO expressao DO BEGIN . sentencas END
+    (34) sentencas -> . comando maissentencas
+    (44) comando -> . READ LPAREN varread RPAREN
+    (45) comando -> . IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (46) comando -> . FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+    (47) comando -> . atribuicao
+    (48) comando -> . WRITE LPAREN varwrite RPAREN
+    (49) comando -> . WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+    (50) comando -> . REPEAT sentencas UNTIL LPAREN condicao RPAREN
+    (51) comando -> . chamadaprocedimento
+    (52) atribuicao -> . ID ATTR expressao
+    (53) chamadaprocedimento -> . ID argumentos
+
+    READ            shift and go to state 29
+    IF              shift and go to state 30
+    FOR             shift and go to state 31
+    WRITE           shift and go to state 34
+    WHILE           shift and go to state 35
+    REPEAT          shift and go to state 36
+    ID              shift and go to state 32
+
+    sentencas                      shift and go to state 217
+    comando                        shift and go to state 28
+    atribuicao                     shift and go to state 33
+    chamadaprocedimento            shift and go to state 37
+
+state 206
+
+    (90) conteudo -> HASHTAG integernum integernumcont HASHTAG .
+
+    RPAREN          reduce using rule 90 (conteudo -> HASHTAG integernum integernumcont HASHTAG .)
+    COMMA           reduce using rule 90 (conteudo -> HASHTAG integernum integernumcont HASHTAG .)
+
+
+state 207
+
+    (92) integernumcont -> COMMA integernum . integernumcont
+    (92) integernumcont -> . COMMA integernum integernumcont
+    (93) integernumcont -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 192
+    HASHTAG         reduce using rule 3 (empty -> .)
+
+    integernumcont                 shift and go to state 218
+    empty                          shift and go to state 193
+
+state 208
+
+    (91) conteudo -> HASHTAG realnum realnumcont HASHTAG .
+
+    RPAREN          reduce using rule 91 (conteudo -> HASHTAG realnum realnumcont HASHTAG .)
+    COMMA           reduce using rule 91 (conteudo -> HASHTAG realnum realnumcont HASHTAG .)
+
+
+state 209
+
+    (94) realnumcont -> COMMA realnum . realnumcont
+    (94) realnumcont -> . COMMA realnum realnumcont
+    (95) realnumcont -> . empty
+    (3) empty -> .
+
+    COMMA           shift and go to state 195
+    HASHTAG         reduce using rule 3 (empty -> .)
+
+    realnumcont                    shift and go to state 219
+    empty                          shift and go to state 196
+
+state 210
+
+    (87) expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo RPAREN .
+
+    DOTCOMMA        reduce using rule 87 (expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo RPAREN .)
+    COMMA           reduce using rule 87 (expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo RPAREN .)
+    RPAREN          reduce using rule 87 (expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo RPAREN .)
+    TO              reduce using rule 87 (expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo RPAREN .)
+    DO              reduce using rule 87 (expressaopilha -> CONCATENA LPAREN conteudo COMMA conteudo RPAREN .)
+
+
+state 211
+
+    (76) operando -> operador LPAREN operando COMMA . operando RPAREN
+    (73) operando -> . ID
+    (74) operando -> . integernum
+    (75) operando -> . realnum
+    (76) operando -> . operador LPAREN operando COMMA operando RPAREN
+    (99) integernum -> . NUMBER
+    (100) realnum -> . RNUMBER
+    (77) operador -> . PLUS
+    (78) operador -> . MINUS
+    (79) operador -> . TIMES
+    (80) operador -> . DIVIDE
+    (81) operador -> . DIVIDER
+
+    ID              shift and go to state 159
+    NUMBER          shift and go to state 103
+    RNUMBER         shift and go to state 104
+    PLUS            shift and go to state 98
+    MINUS           shift and go to state 99
+    TIMES           shift and go to state 100
+    DIVIDE          shift and go to state 101
+    DIVIDER         shift and go to state 102
+
+    operador                       shift and go to state 157
+    operando                       shift and go to state 220
+    integernum                     shift and go to state 160
+    realnum                        shift and go to state 161
+
+state 212
+
+    (82) termo -> operador LPAREN operando COMMA operando RPAREN .
+
+    DOTCOMMA        reduce using rule 82 (termo -> operador LPAREN operando COMMA operando RPAREN .)
+    COMMA           reduce using rule 82 (termo -> operador LPAREN operando COMMA operando RPAREN .)
+    RPAREN          reduce using rule 82 (termo -> operador LPAREN operando COMMA operando RPAREN .)
+    TO              reduce using rule 82 (termo -> operador LPAREN operando COMMA operando RPAREN .)
+    DO              reduce using rule 82 (termo -> operador LPAREN operando COMMA operando RPAREN .)
+
+
+state 213
+
+    (49) comando -> WHILE LPAREN condicao RPAREN DO BEGIN sentencas END .
+
+    DOTCOMMA        reduce using rule 49 (comando -> WHILE LPAREN condicao RPAREN DO BEGIN sentencas END .)
+
+
+state 214
+
+    (45) comando -> IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa .
+
+    DOTCOMMA        reduce using rule 45 (comando -> IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa .)
+
+
+state 215
+
+    (61) pfalsa -> ELSE . BEGIN sentencas END
+
+    BEGIN           shift and go to state 221
+
+
+state 216
+
+    (62) pfalsa -> empty .
+
+    DOTCOMMA        reduce using rule 62 (pfalsa -> empty .)
+
+
+state 217
+
+    (46) comando -> FOR ID ATTR expressao TO expressao DO BEGIN sentencas . END
+
+    END             shift and go to state 222
+
+
+state 218
+
+    (92) integernumcont -> COMMA integernum integernumcont .
+
+    HASHTAG         reduce using rule 92 (integernumcont -> COMMA integernum integernumcont .)
+
+
+state 219
+
+    (94) realnumcont -> COMMA realnum realnumcont .
+
+    HASHTAG         reduce using rule 94 (realnumcont -> COMMA realnum realnumcont .)
+
+
+state 220
+
+    (76) operando -> operador LPAREN operando COMMA operando . RPAREN
+
+    RPAREN          shift and go to state 223
+
+
+state 221
+
+    (61) pfalsa -> ELSE BEGIN . sentencas END
+    (34) sentencas -> . comando maissentencas
+    (44) comando -> . READ LPAREN varread RPAREN
+    (45) comando -> . IF LPAREN condicao RPAREN THEN BEGIN sentencas END pfalsa
+    (46) comando -> . FOR ID ATTR expressao TO expressao DO BEGIN sentencas END
+    (47) comando -> . atribuicao
+    (48) comando -> . WRITE LPAREN varwrite RPAREN
+    (49) comando -> . WHILE LPAREN condicao RPAREN DO BEGIN sentencas END
+    (50) comando -> . REPEAT sentencas UNTIL LPAREN condicao RPAREN
+    (51) comando -> . chamadaprocedimento
+    (52) atribuicao -> . ID ATTR expressao
+    (53) chamadaprocedimento -> . ID argumentos
+
+    READ            shift and go to state 29
+    IF              shift and go to state 30
+    FOR             shift and go to state 31
+    WRITE           shift and go to state 34
+    WHILE           shift and go to state 35
+    REPEAT          shift and go to state 36
+    ID              shift and go to state 32
+
+    sentencas                      shift and go to state 224
+    comando                        shift and go to state 28
+    atribuicao                     shift and go to state 33
+    chamadaprocedimento            shift and go to state 37
+
+state 222
+
+    (46) comando -> FOR ID ATTR expressao TO expressao DO BEGIN sentencas END .
+
+    DOTCOMMA        reduce using rule 46 (comando -> FOR ID ATTR expressao TO expressao DO BEGIN sentencas END .)
+
+
+state 223
+
+    (76) operando -> operador LPAREN operando COMMA operando RPAREN .
+
+    COMMA           reduce using rule 76 (operando -> operador LPAREN operando COMMA operando RPAREN .)
+    RPAREN          reduce using rule 76 (operando -> operador LPAREN operando COMMA operando RPAREN .)
+
+
+state 224
+
+    (61) pfalsa -> ELSE BEGIN sentencas . END
+
+    END             shift and go to state 225
+
+
+state 225
+
+    (61) pfalsa -> ELSE BEGIN sentencas END .
+
+    DOTCOMMA        reduce using rule 61 (pfalsa -> ELSE BEGIN sentencas END .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: reduce/reduce conflict in state 84 resolved using rule (empty -> <empty>)
+WARNING: rejected rule (termo -> ID) in state 84
+WARNING: Rule (termo -> ID) is never reduced
