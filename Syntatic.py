@@ -1,15 +1,13 @@
 import ply.yacc as yacc
 from Lexical import tokens, data, line
 import pandas as pd
-
 SymbolTable = {}
-
+FuncScope = False
 def p_programa(p):
     'programa : PROGRAM ID DOTCOMMA corpo'
 
 def p_corpo(p):
     'corpo : declara rotina BEGIN sentencas END'
-
 def p_empty(p):
     'empty :'
     pass
@@ -41,10 +39,13 @@ def p_tipovar(p):
             | PILHAREAL
     '''
     type_list.append(p[1])
+    print(p[1])
 
+varlist = []
 def p_variaveis(p):
     'variaveis : ID maisvar'
     SymbolTable[p[1]] = {'Tipo': p_tipovar(p)}
+    varlist.append((p[1],p.lineno))
     return p[1]
 def p_maisvar(p):
     '''
@@ -62,9 +63,12 @@ def p_rotina(p):
 def p_procedimento(p):
     'procedimento : PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina'
 
+funcList = []
 def p_funcao(p):
     'funcao : FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina'
-
+    #type_list.append(p[2])
+    lin = p.lineno(2)
+    funcList.append((p[2],lin))
 def p_parametros(p):
     '''
     parametros : LPAREN listaparametros RPAREN
@@ -81,6 +85,10 @@ def p_contlistapar(p):
 
 def p_listaid(p):
     'listaid : ID contlistaid'
+    SymbolTable[p[1]] = {'Tipo': p_tipovar(p)}
+    lin = p.lineno(1)
+    varlist.append((p[1],lin))
+
 
 def p_contlistaid(p):
     '''
@@ -88,6 +96,7 @@ def p_contlistaid(p):
                 | empty
     '''
 
+funcTypeList = []
 def p_tipofuncao(p):
     '''
     tipofuncao : INTEGER
@@ -95,6 +104,7 @@ def p_tipofuncao(p):
                | PILHAINTEGER
                | PILHAREAL
     '''
+    funcTypeList.append((p[1]))
 
 def p_sentencas(p):
     'sentencas : comando maissentencas'
@@ -267,9 +277,12 @@ def p_error(p):
         print("Syntax error at EOF")
 
 parser = yacc.yacc()
-result = parser.parse(data)
+result = parser.parse(data,tracking=True)
+print(varlist[0][1])
 for i in range(0,len(type_list),2):
     SymbolTable[type_list[i]]['Tipo'] = type_list[i + 1]
+for nome,tipo in zip(funcList, funcTypeList):
+    SymbolTable[nome[0]] = {'Tipo':tipo}
 for element in SymbolTable:
     if SymbolTable[element]['Tipo'] == 'integer':
         SymbolTable[element]['Valor'] = '0'
@@ -279,7 +292,8 @@ for element in SymbolTable:
         SymbolTable[element]['Valor'] = '##' 
     if SymbolTable[element]['Tipo'] == 'pilha_of_real':
         SymbolTable[element]['Valor'] = '##' 
-nome_variavel = []               
+
+nome_variavel = []
 tipo = []
 valor =  []
 escopo = []
