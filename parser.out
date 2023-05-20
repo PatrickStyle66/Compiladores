@@ -1,5 +1,9 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    TWODOT
+
 Grammar
 
 Rule 0     S' -> programa
@@ -23,10 +27,10 @@ Rule 17    rotina -> procedimento
 Rule 18    rotina -> funcao
 Rule 19    rotina -> empty
 Rule 20    procedimento -> PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
-Rule 21    funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+Rule 21    funcao -> FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina
 Rule 22    parametros -> LPAREN listaparametros RPAREN
 Rule 23    parametros -> empty
-Rule 24    listaparametros -> listaid TWODOT tipovar contlistapar
+Rule 24    listaparametros -> listaid TYPE tipovar contlistapar
 Rule 25    contlistapar -> DOTCOMMA listaparametros
 Rule 26    contlistapar -> empty
 Rule 27    listaid -> ID contlistaid
@@ -148,8 +152,8 @@ RPAREN               : 22 44 45 48 49 50 54 59 60 76 82 86 87 88
 THEN                 : 45
 TIMES                : 79
 TO                   : 46
-TWODOT               : 21 24
-TYPE                 : 9
+TWODOT               : 
+TYPE                 : 9 21 24
 UNTIL                : 50
 VAR                  : 4
 WHILE                : 49
@@ -268,7 +272,7 @@ state 6
     (18) rotina -> . funcao
     (19) rotina -> . empty
     (20) procedimento -> . PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
-    (21) funcao -> . FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> . FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina
     (3) empty -> .
 
     PROCEDURE       shift and go to state 13
@@ -337,7 +341,7 @@ state 13
 
 state 14
 
-    (21) funcao -> FUNCTION . ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> FUNCTION . ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina
 
     ID              shift and go to state 20
 
@@ -414,13 +418,13 @@ state 19
 
 state 20
 
-    (21) funcao -> FUNCTION ID . parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> FUNCTION ID . parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina
     (22) parametros -> . LPAREN listaparametros RPAREN
     (23) parametros -> . empty
     (3) empty -> .
 
     LPAREN          shift and go to state 39
-    TWODOT          reduce using rule 3 (empty -> .)
+    TYPE            reduce using rule 3 (empty -> .)
 
     parametros                     shift and go to state 41
     empty                          shift and go to state 40
@@ -613,7 +617,7 @@ state 38
 state 39
 
     (22) parametros -> LPAREN . listaparametros RPAREN
-    (24) listaparametros -> . listaid TWODOT tipovar contlistapar
+    (24) listaparametros -> . listaid TYPE tipovar contlistapar
     (27) listaid -> . ID contlistaid
 
     ID              shift and go to state 67
@@ -626,14 +630,14 @@ state 40
     (23) parametros -> empty .
 
     DOTCOMMA        reduce using rule 23 (parametros -> empty .)
-    TWODOT          reduce using rule 23 (parametros -> empty .)
+    TYPE            reduce using rule 23 (parametros -> empty .)
 
 
 state 41
 
-    (21) funcao -> FUNCTION ID parametros . TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> FUNCTION ID parametros . TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina
 
-    TWODOT          shift and go to state 68
+    TYPE            shift and go to state 68
 
 
 state 42
@@ -676,7 +680,7 @@ state 46
 
     DOTCOMMA        reduce using rule 10 (tipovar -> INTEGER .)
     RPAREN          reduce using rule 10 (tipovar -> INTEGER .)
-    TWODOT          reduce using rule 10 (tipovar -> INTEGER .)
+    TYPE            reduce using rule 10 (tipovar -> INTEGER .)
 
 
 state 47
@@ -685,7 +689,7 @@ state 47
 
     DOTCOMMA        reduce using rule 11 (tipovar -> REAL .)
     RPAREN          reduce using rule 11 (tipovar -> REAL .)
-    TWODOT          reduce using rule 11 (tipovar -> REAL .)
+    TYPE            reduce using rule 11 (tipovar -> REAL .)
 
 
 state 48
@@ -694,7 +698,7 @@ state 48
 
     DOTCOMMA        reduce using rule 12 (tipovar -> PILHAINTEGER .)
     RPAREN          reduce using rule 12 (tipovar -> PILHAINTEGER .)
-    TWODOT          reduce using rule 12 (tipovar -> PILHAINTEGER .)
+    TYPE            reduce using rule 12 (tipovar -> PILHAINTEGER .)
 
 
 state 49
@@ -703,7 +707,7 @@ state 49
 
     DOTCOMMA        reduce using rule 13 (tipovar -> PILHAREAL .)
     RPAREN          reduce using rule 13 (tipovar -> PILHAREAL .)
-    TWODOT          reduce using rule 13 (tipovar -> PILHAREAL .)
+    TYPE            reduce using rule 13 (tipovar -> PILHAREAL .)
 
 
 state 50
@@ -982,9 +986,9 @@ state 65
 
 state 66
 
-    (24) listaparametros -> listaid . TWODOT tipovar contlistapar
+    (24) listaparametros -> listaid . TYPE tipovar contlistapar
 
-    TWODOT          shift and go to state 113
+    TYPE            shift and go to state 113
 
 
 state 67
@@ -995,14 +999,14 @@ state 67
     (3) empty -> .
 
     DOTCOMMA        shift and go to state 115
-    TWODOT          reduce using rule 3 (empty -> .)
+    TYPE            reduce using rule 3 (empty -> .)
 
     contlistaid                    shift and go to state 114
     empty                          shift and go to state 116
 
 state 68
 
-    (21) funcao -> FUNCTION ID parametros TWODOT . tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> FUNCTION ID parametros TYPE . tipofuncao DOTCOMMA corpo DOTCOMMA rotina
     (30) tipofuncao -> . INTEGER
     (31) tipofuncao -> . REAL
     (32) tipofuncao -> . PILHAINTEGER
@@ -1438,12 +1442,12 @@ state 112
     (22) parametros -> LPAREN listaparametros RPAREN .
 
     DOTCOMMA        reduce using rule 22 (parametros -> LPAREN listaparametros RPAREN .)
-    TWODOT          reduce using rule 22 (parametros -> LPAREN listaparametros RPAREN .)
+    TYPE            reduce using rule 22 (parametros -> LPAREN listaparametros RPAREN .)
 
 
 state 113
 
-    (24) listaparametros -> listaid TWODOT . tipovar contlistapar
+    (24) listaparametros -> listaid TYPE . tipovar contlistapar
     (10) tipovar -> . INTEGER
     (11) tipovar -> . REAL
     (12) tipovar -> . PILHAINTEGER
@@ -1460,13 +1464,13 @@ state 114
 
     (27) listaid -> ID contlistaid .
 
-    TWODOT          reduce using rule 27 (listaid -> ID contlistaid .)
+    TYPE            reduce using rule 27 (listaid -> ID contlistaid .)
 
 
 state 115
 
     (28) contlistaid -> DOTCOMMA . listaparametros
-    (24) listaparametros -> . listaid TWODOT tipovar contlistapar
+    (24) listaparametros -> . listaid TYPE tipovar contlistapar
     (27) listaid -> . ID contlistaid
 
     ID              shift and go to state 67
@@ -1478,12 +1482,12 @@ state 116
 
     (29) contlistaid -> empty .
 
-    TWODOT          reduce using rule 29 (contlistaid -> empty .)
+    TYPE            reduce using rule 29 (contlistaid -> empty .)
 
 
 state 117
 
-    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao . DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> FUNCTION ID parametros TYPE tipofuncao . DOTCOMMA corpo DOTCOMMA rotina
 
     DOTCOMMA        shift and go to state 147
 
@@ -1820,7 +1824,7 @@ state 144
     (18) rotina -> . funcao
     (19) rotina -> . empty
     (20) procedimento -> . PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
-    (21) funcao -> . FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> . FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina
     (3) empty -> .
 
     PROCEDURE       shift and go to state 13
@@ -1834,14 +1838,14 @@ state 144
 
 state 145
 
-    (24) listaparametros -> listaid TWODOT tipovar . contlistapar
+    (24) listaparametros -> listaid TYPE tipovar . contlistapar
     (25) contlistapar -> . DOTCOMMA listaparametros
     (26) contlistapar -> . empty
     (3) empty -> .
 
     DOTCOMMA        shift and go to state 168
     RPAREN          reduce using rule 3 (empty -> .)
-    TWODOT          reduce using rule 3 (empty -> .)
+    TYPE            reduce using rule 3 (empty -> .)
 
     contlistapar                   shift and go to state 167
     empty                          shift and go to state 169
@@ -1850,12 +1854,12 @@ state 146
 
     (28) contlistaid -> DOTCOMMA listaparametros .
 
-    TWODOT          reduce using rule 28 (contlistaid -> DOTCOMMA listaparametros .)
+    TYPE            reduce using rule 28 (contlistaid -> DOTCOMMA listaparametros .)
 
 
 state 147
 
-    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA . corpo DOTCOMMA rotina
+    (21) funcao -> FUNCTION ID parametros TYPE tipofuncao DOTCOMMA . corpo DOTCOMMA rotina
     (2) corpo -> . declara rotina BEGIN sentencas END
     (4) declara -> . VAR dvar maisdc
     (5) declara -> . empty
@@ -2057,16 +2061,16 @@ state 166
 
 state 167
 
-    (24) listaparametros -> listaid TWODOT tipovar contlistapar .
+    (24) listaparametros -> listaid TYPE tipovar contlistapar .
 
-    RPAREN          reduce using rule 24 (listaparametros -> listaid TWODOT tipovar contlistapar .)
-    TWODOT          reduce using rule 24 (listaparametros -> listaid TWODOT tipovar contlistapar .)
+    RPAREN          reduce using rule 24 (listaparametros -> listaid TYPE tipovar contlistapar .)
+    TYPE            reduce using rule 24 (listaparametros -> listaid TYPE tipovar contlistapar .)
 
 
 state 168
 
     (25) contlistapar -> DOTCOMMA . listaparametros
-    (24) listaparametros -> . listaid TWODOT tipovar contlistapar
+    (24) listaparametros -> . listaid TYPE tipovar contlistapar
     (27) listaid -> . ID contlistaid
 
     ID              shift and go to state 67
@@ -2079,12 +2083,12 @@ state 169
     (26) contlistapar -> empty .
 
     RPAREN          reduce using rule 26 (contlistapar -> empty .)
-    TWODOT          reduce using rule 26 (contlistapar -> empty .)
+    TYPE            reduce using rule 26 (contlistapar -> empty .)
 
 
 state 170
 
-    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo . DOTCOMMA rotina
+    (21) funcao -> FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo . DOTCOMMA rotina
 
     DOTCOMMA        shift and go to state 186
 
@@ -2340,17 +2344,17 @@ state 185
     (25) contlistapar -> DOTCOMMA listaparametros .
 
     RPAREN          reduce using rule 25 (contlistapar -> DOTCOMMA listaparametros .)
-    TWODOT          reduce using rule 25 (contlistapar -> DOTCOMMA listaparametros .)
+    TYPE            reduce using rule 25 (contlistapar -> DOTCOMMA listaparametros .)
 
 
 state 186
 
-    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA . rotina
+    (21) funcao -> FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA . rotina
     (17) rotina -> . procedimento
     (18) rotina -> . funcao
     (19) rotina -> . empty
     (20) procedimento -> . PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina
-    (21) funcao -> . FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina
+    (21) funcao -> . FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina
     (3) empty -> .
 
     PROCEDURE       shift and go to state 13
@@ -2466,9 +2470,9 @@ state 200
 
 state 201
 
-    (21) funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina .
+    (21) funcao -> FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina .
 
-    BEGIN           reduce using rule 21 (funcao -> FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina .)
+    BEGIN           reduce using rule 21 (funcao -> FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina .)
 
 
 state 202

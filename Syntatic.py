@@ -3,6 +3,55 @@ from Lexical import tokens, data, line
 import pandas as pd
 SymbolTable = {}
 FuncScope = False
+tokdict= {
+    'IF':'if',
+    'THEN':'then',
+    'ELSE':'else',
+    'WHILE':'while',
+    'BEGIN':'begin',
+    'END':'end',
+    'PROGRAM':'program',
+    'PILHAINTEGER':'pilha_of_integer',
+    'PILHAREAL':'pilha_of_real',
+    'VAR':'var',
+    'FUNCTION':'function',
+    'READ':'read',
+    'WRITE':'write',
+    'CONCATENA':'concatena',
+    'INVERTE':'inverte',
+    'INTEGER':'integer',
+    'REAL':'real',
+    'FOR':'for',
+    'TO':'to',
+    'DO':'do',
+    'REPEAT':'repeat',
+    'UNTIL':'until',
+    'INPUT':'input',
+    'OUTPUT':'output',
+    'LENGTH':'length',
+    'PROCEDURE':'procedure',
+    'ID':'id',
+    'NUMBER':'number',
+    'RNUMBER':'real number',
+    'PLUS':'+',
+    'MINUS': '-',
+    'TIMES': '*',
+    'DIVIDE':'//',
+    'DIVIDER':'/',
+    'LPAREN':'(',
+    'RPAREN':')',
+    'GREAT':'>',
+    'LESS':'<',
+    'GREATEQ':'>=',
+    'LESSEQ':'<=',
+    'EQUALS':'=',
+    'DIFFERENT':'<>',
+    'ATTR':':=',
+    'COMMA':',',
+    'DOTCOMMA':';',
+    'HASHTAG':'#',
+    'TYPE':'->'
+}
 def p_programa(p):
     'programa : PROGRAM ID DOTCOMMA corpo'
 
@@ -39,7 +88,7 @@ def p_tipovar(p):
             | PILHAREAL
     '''
     type_list.append(p[1])
-    print(p[1])
+    #print(p[1])
 
 varlist = []
 def p_variaveis(p):
@@ -65,7 +114,7 @@ def p_procedimento(p):
 
 funcList = []
 def p_funcao(p):
-    'funcao : FUNCTION ID parametros TWODOT tipofuncao DOTCOMMA corpo DOTCOMMA rotina'
+    'funcao : FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina'
     #type_list.append(p[2])
     lin = p.lineno(2)
     funcList.append((p[2],lin))
@@ -76,7 +125,7 @@ def p_parametros(p):
     '''
 
 def p_listaparmetros(p):
-    'listaparametros : listaid TWODOT tipovar contlistapar'
+    'listaparametros : listaid TYPE tipovar contlistapar'
 
 def p_contlistapar(p):
     '''contlistapar : DOTCOMMA listaparametros
@@ -270,15 +319,14 @@ def p_realnum(p):
 
 def p_error(p):
     if p:
-        print(f'Syntax error at token {p.type} line {p.lineno - line + 1}')
-        # Just discard the token and tell the parser it's okay.
+        print(f"Erro de sintaxe no token '{tokdict[p.type]}' linha {p.lineno - line + 1}")
         parser.errok()
     else:
-        print("Syntax error at EOF")
+        print("Erro de sintaxe em EOF")
 
 parser = yacc.yacc()
 result = parser.parse(data,tracking=True)
-print(varlist[0][1])
+#print(varlist[0][1])
 for i in range(0,len(type_list),2):
     SymbolTable[type_list[i]]['Tipo'] = type_list[i + 1]
 for nome,tipo in zip(funcList, funcTypeList):

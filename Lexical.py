@@ -70,7 +70,6 @@ t_DIFFERENT = r'<>'
 t_ATTR = r':='
 t_COMMA = r','
 t_DOTCOMMA = r';'
-t_TWODOT = r':'
 t_HASHTAG = r'\#'
 t_TYPE = r'->'
 
@@ -92,7 +91,7 @@ def t_newline(t):
 t_ignore  = ' \t'
 
 def t_error(t):
-    errors.append(f'({t.value[0]}')
+    errors.append(f'{t.value[0]}')
     t.lexer.skip(1)
 
 def t_ID(t):
