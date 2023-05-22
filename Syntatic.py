@@ -94,7 +94,8 @@ varlist = []
 def p_variaveis(p):
     'variaveis : ID maisvar'
     SymbolTable[p[1]] = {'Tipo': p_tipovar(p)}
-    varlist.append((p[1],p.lineno))
+    lin = p.lineno(1)
+    varlist.append((p[1],lin))
     return p[1]
 def p_maisvar(p):
     '''
@@ -108,10 +109,12 @@ def p_rotina(p):
            | funcao
            | empty
     '''
-
+procList = []
 def p_procedimento(p):
     'procedimento : PROCEDURE ID parametros DOTCOMMA corpo DOTCOMMA rotina'
-
+    SymbolTable[p[2]] = {'Tipo':'procedimento','Valor':'NULL'}
+    lin = p.lineno(2)
+    procList.append((p[2], lin))
 funcList = []
 def p_funcao(p):
     'funcao : FUNCTION ID parametros TYPE tipofuncao DOTCOMMA corpo DOTCOMMA rotina'
@@ -153,7 +156,7 @@ def p_tipofuncao(p):
                | PILHAINTEGER
                | PILHAREAL
     '''
-    funcTypeList.append((p[1]))
+    funcTypeList.append((f'função {p[1]}'))
 
 def p_sentencas(p):
     'sentencas : comando maissentencas'
@@ -326,20 +329,40 @@ def p_error(p):
 
 parser = yacc.yacc()
 result = parser.parse(data,tracking=True)
-#print(varlist[0][1])
+funcList = funcList + procList
+funcList.sort(key=lambda a: a[1])
 for i in range(0,len(type_list),2):
     SymbolTable[type_list[i]]['Tipo'] = type_list[i + 1]
 for nome,tipo in zip(funcList, funcTypeList):
     SymbolTable[nome[0]] = {'Tipo':tipo}
 for element in SymbolTable:
-    if SymbolTable[element]['Tipo'] == 'integer':
+    if SymbolTable[element]['Tipo'] == 'integer' or SymbolTable[element]['Tipo'] == 'função integer':
         SymbolTable[element]['Valor'] = '0'
-    if SymbolTable[element]['Tipo'] == 'real':
+    if SymbolTable[element]['Tipo'] == 'real' or SymbolTable[element]['Tipo'] == 'função real':
         SymbolTable[element]['Valor'] = '0.0'
-    if SymbolTable[element]['Tipo'] == 'pilha_of_integer':
-        SymbolTable[element]['Valor'] = '##' 
-    if SymbolTable[element]['Tipo'] == 'pilha_of_real':
-        SymbolTable[element]['Valor'] = '##' 
+    if SymbolTable[element]['Tipo'] == 'pilha_of_integer' or SymbolTable[element]['Tipo'] == 'função pilha_of_integer':
+        SymbolTable[element]['Valor'] = '##'
+    if SymbolTable[element]['Tipo'] == 'pilha_of_real' or SymbolTable[element]['Tipo'] == 'função pilha_of_real':
+        SymbolTable[element]['Valor'] = '##'
+for element in SymbolTable:
+    SymbolTable[element]['Escopo'] = 'Global'
+for j in range(0,len(varlist)):
+    i = 0
+    for k in range(len(funcList)):
+        if len(funcList) > 1:
+            try:
+                if varlist[j][1] >= funcList[k][1] and varlist[j][1] < funcList[i + 1][1]:
+                    SymbolTable[varlist[j][0]]['Escopo'] = funcList[k][0]
+                i += 1
+            except:
+                if i == len(funcList) - 1:
+                    SymbolTable[varlist[j][0]]['Escopo'] = funcList[k][0]
+
+        else:
+            if varlist[j][1] >= funcList[k][1]:
+                SymbolTable[varlist[j][0]]['Escopo'] = funcList[k][0]
+
+
 
 nome_variavel = []
 tipo = []
@@ -349,7 +372,7 @@ for element in SymbolTable:
     nome_variavel.append(element)
     valor.append(SymbolTable[element]["Valor"])
     tipo.append(SymbolTable[element]["Tipo"])
-    escopo.append("Global")
+    escopo.append(SymbolTable[element]["Escopo"])
 
 dados = {"ID": nome_variavel,'Tipo': tipo, "Valor": valor, "Escopo": escopo}
 dataframe = pd.DataFrame(dados)

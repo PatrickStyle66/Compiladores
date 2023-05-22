@@ -1,12 +1,26 @@
 program teste ;
 var x -> integer ; y -> pilha_of_integer ; teste -> real ; z -> pilha_of_real;
 a -> integer ; b -> integer ; c -> integer ; d -> integer ; e -> integer ; f -> integer ;
+
 function testefun(count -> integer ) -> integer ;
 var amount -> integer ;
 begin
 amount := 0;
 amount := +(count , amount);
 end ;
+
+function testereal( lixo -> real) -> real ;
+var dummy -> real ;
+begin
+dummy := -(dummy, lixo);
+write(dummy);
+end;
+
+procedure SemRetorno( primeiro -> integer ; segundo -> real ; terceiro-> pilha_of_real );
+begin
+write(primeiro);
+end;
+
 begin
 x := +(+2.3 , -2) ;
 y := input(#2, 3, 4, 5#) ;
